@@ -33,7 +33,7 @@ External::External( const ProblemInfo& info, const std::string& data_dir )
     initial();
     //cout << "initial success!\n";
     initial_time = aptk::time_used()-cur_time;
-    m_callCounter = 0;
+    //m_callCounter = 0;
     counter = 0;
 }
 
