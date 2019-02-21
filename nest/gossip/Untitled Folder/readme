@@ -1,0 +1,15 @@
+This is a working version with external function and checking epistemic by several c++ files.
+
+The external cxx function read the initial state from problem.pddl file and parse the problem into a string, and whenever it's get called. it will replace the x,y and direction of the first agent(treated as the moving agent), and call the haskell funciton through that string.
+
+Query:
+In this version, query is directly read from the comments in side the pddl file, which means, the depth of the nest knowledge would not be a problem at all.
+
+Domain:
+BigBrotherLogic
+
+future improvements:
+1. need to finish more testing_problem file
+2. need to get the function of operating on reading and output separate from the external c++ file
+
+for now, let's move on to the corridor case to see how it goes.

@@ -1,0 +1,12 @@
+this version is for simple generate private nest knowledge
+
+Only camera1 is able to move or turn
+
+camera2 is fixed
+
+by moving camera1, camera1 is able to have knowledge that he is able to see camera2 sees obj1 and obj2, and camera2 does not knowing that.
+
+
+
+
+This version is aimed to make the queries with identicial id
