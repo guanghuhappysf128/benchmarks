@@ -1,42 +1,41 @@
 //
-// Created by ghu1 on 21/08/18.
+// Created by ghu1 on 4/02/19.
 //
-#include "epistemic_checker.hxx"
 
-#ifndef SIM_GEN_DOMAIN_H
-#define SIM_GEN_DOMAIN_H
+#include "epistemic_checker.hxx"
+#define PI 3.1415926
+
+#ifndef S_MEDIA_DOMAIN_HXX
+#define S_MEDIA_DOMAIN_HXX
+
 
 using namespace std;
 
 bool Agent::seesAgent(Agent &target)
 {
-
-    string agent_l,target_l;
     for (auto i: this->variables)
     {
-        if (i.sameName("location")) agent_l = i.getValue();
+        if (i.sameName("friendwith"+target.getId())) return true;
     }
-    for (auto i: target.variables)
-    {
-        if (i.sameName("location")) target_l = i.getValue();
-    }
-    return sees(agent_l,target_l);
-}
+    return false;
+};
 
 bool Agent::seesObject(Object &target)
 {
 
-    string agent_l,target_l;
-    for (auto i: this->variables)
-    {
-        if (i.sameName("location")) agent_l = i.getValue();
-    }
+    string agent_l,target_poster_id;
     for (auto i: target.variables)
     {
-        if (i.sameName("location")) target_l = i.getValue();
+        if (i.sameName("belongsto")) target_poster_id = i.getValue();
     }
-    return sees(agent_l,target_l);
-}
+    //std::cout << "Belongs to "<< target_poster_id << endl;
+    for (auto i: this->variables)
+    {
+        if (i.sameName("friendwith"+target_poster_id)) return true;
+    }
+
+    return false;
+};
 
 Agent Agent::seesAV(Agent &a)
 {
@@ -48,19 +47,20 @@ Agent Agent::seesAV(Agent &a)
         else if (this->seesAgent(a)) agent.addVariable(i.getName(),i.getValue());
     }
     return agent;
-}
+};
 
 Object Agent::seesOV(Object &o)
 {
-    string agent_id=o.getId();
-    Object object(agent_id);
+    string obj_id=o.getId();
+    Object object(obj_id);
+    //std:cout << "agent " << this->getId() << " sees object "<< obj_id << " is " << this->seesObject(o) << endl;
     for (auto i: o.variables)
     {
         if (i.sameName("location")) object.addVariable(i.getName(),i.getValue());
         else if (this->seesObject(o)) object.addVariable(i.getName(),i.getValue());
     }
     return object;
-}
+};
 
 bool ProblemState::checkS(Seeing &s)
 {
@@ -83,26 +83,43 @@ bool ProblemState::checkS(Seeing &s)
                 Agent a = this->getAgent(i);
                 if (this->findAgent(s.seeing_ptr->variable_ptr->getId()))
                 {
+                    std::cout <<"------------1"<<endl;
                     Agent target = this->getAgent(s.seeing_ptr->variable_ptr->getId());
                     return a.seesAgent(target);
                 }
                 else if (this->findObject(s.seeing_ptr->variable_ptr->getId()))
                 {
+                    std::cout <<"------------2"<<endl;
                     Object target = this->getObject(s.seeing_ptr->variable_ptr->getId());
                     return a.seesObject(target);
-                } else return false;
+                }
+                else
+                {
+                    std::cout <<"------------3"<<endl;
+                    return false;
+                }
             }
         }
     }
+
+    //this needs to be changed
 
     for (auto i:s.seeing_ptr->agent_ids)
     {
         if (this->findAgent(i))
         {
             //this need to be a feature that every agent have, and it cannot be location because everyone know others location as assumption
-            if (this->getAgent(i).getV("secret")=="NONE")
+            if (this->getAgent(i).getV("name")=="NONE")
+            {
+                std::cout <<"------------4"<<endl;
                 return false;
-        } else return false;
+            }
+        }
+        else
+        {
+            std::cout <<"------------5"<<endl;
+            return false;
+        }
 
 
     }
@@ -115,7 +132,9 @@ bool sees(string agent_l,string target_l)
 
     int agent = stoi(agent_l);
     int target = stoi(target_l);
-    return agent==target;
-}
+    return abs(agent-target)<=1;
+};
 
-#endif //SIM_GEN_DOMAIN_H
+
+
+#endif //S_MEDIA_DOMAIN_HXX

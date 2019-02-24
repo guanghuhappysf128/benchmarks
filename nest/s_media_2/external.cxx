@@ -61,12 +61,11 @@ External::check(const std::vector<ObjectIdx>& args )  {
         //this->m_callCounter++;
         counter++;
 
-        ObjectIdx room_id = args[0];
+        ObjectIdx encoding = args[0];
         ObjectIdx query_id = args[1];
         int query_id_int = query_id;
-        int room_id_int = room_id;
+        int encoding_int = encoding;
         string query_id_str = pddl_objects.find(query_id_int)->second;
-        string room_id_str = to_string(room_id_int);
 
         if (state1==NULL) assert ("pointer not ready");
 
@@ -75,24 +74,40 @@ External::check(const std::vector<ObjectIdx>& args )  {
         LPT_DEBUG("checking", "argument2 :" << query_id << "");
         LPT_DEBUG("checking", "argument2 str :" << query_id_str << "");
 
-        string output;
-        if (!state1->findAgent(agent_name))
+
+
+        int num_agt = state1->getAgents()->size();
+        int num_obj = state1->getObjects()->size();
+
+        for (int i = num_obj;i>0;i--)
         {
-            assert ("agent not found on checking");
-        }
-        else
-        {
-            
-            if (!state1->changeAgentV(agent_name,"location",room_id_str))
+            if (!state1->findObject("obj_"+to_string(i)))
             {
-                assert ("change agent value not found on checking");
+                //assert ("objects not found with id");
+                cout << "obj not found with id " << to_string(i)<<endl;
+            }
+            else
+            {
+                cout << "obj found with id " << to_string(i)<<endl;
+                if (state1->changeObjectV("obj_"+to_string(i),"belongsto",to_string(encoding_int%(num_agt+1))))
+                {
+                    cout << "var found with id " << to_string(i)<<endl;
+                }
+                else
+                {
+                    cout << "var not found with id " << to_string(i)<<endl;
+                   // assert("belongsto not found");
+                }
+                encoding_int = encoding_int/(num_agt+1);
             }
         }
 
-        output.append(state1->print());
+
+        string output = state1->print();
+
         output.append("/query:/");
         output.append(queries.find(query_id_str)->second);
-        //cout << "check string: \n" << output << endl;
+        cout << "check string: \n" << output << endl;
         int result1=1;
         if (check_epistemic(output))
         {
@@ -102,6 +117,8 @@ External::check(const std::vector<ObjectIdx>& args )  {
         {
             result1=0;
         }
+        cout << "check result: " << result1 << endl;
+
         //cout << "check result: " << result1 << endl;
         ObjectIdx count = result1;
         time_counter = time_counter + aptk::time_used() - cur_time;

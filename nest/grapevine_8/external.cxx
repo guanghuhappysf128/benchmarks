@@ -84,62 +84,40 @@ External::check(const std::vector<ObjectIdx>& args )  {
         // cout << query_id_int << endl;
         // cout << query_id_str << endl;
 
-        for (int i=agent_num;i>0;i--)
+        int encoding_int=9;
+        int num_agt = state1->getAgents()->size();
+        int num_obj = state1->getObjects()->size();
+        string query_id_str ="p1";
+
+        for (int i = num_obj;i>0;i--)
         {
-            if (!state1->findAgent(to_string(i)))
+            if (!state1->findObject("obj_"+to_string(i)))
             {
-                assert ("agent not found on checking");
+                //assert ("objects not found with id");
+                cout << "obj not found with id " << to_string(i)<<endl;
             }
             else
             {
-                
-                if (!state1->changeAgentV(to_string(i),"location",to_string(room_encoding_int%2)))
+                cout << "obj found with id " << to_string(i)<<endl;
+                if (state1->changeObjectV("obj_"+to_string(i),"belongsto",to_string(encoding_int%(num_agt+1))))
                 {
-                    assert ("change agent value not found on checking");
+                    cout << "var found with id " << to_string(i)<<endl;
                 }
-                room_encoding_int = room_encoding_int / 2;
+                else
+                {
+                    cout << "var not found with id " << to_string(i)<<endl;
+                   // assert("belongsto not found");
+                }
+                encoding_int = encoding_int/(num_agt+1);
             }
         }
-        if (!state1->findObject(object_id))
-        {
-            assert ("object not found on checking");
-        }
-        else
-        {
-            
-            if (!state1->changeObjectV(object_id,"location",to_string(obj_loc_int)))
-            {
-                assert ("change object location not found on checking");
-            }
-
-            if (!state1->changeObjectV(object_id,"value",to_string(obj_val_int)))
-            {
-                assert ("change object value not found on checking");
-            }
-
-        }
 
 
+        string output = state1->print();
 
-
-        string output;
-        // if (!state1->findAgent(agent_name))
-        // {
-        //     assert ("agent not found on checking");
-        // }
-        // else
-        // {
-            
-        //     if (!state1->changeAgentV(agent_name,"location",room_id_str))
-        //     {
-        //         assert ("change agent value not found on checking");
-        //     }
-        // }
-
-        output.append(state1->print());
         output.append("/query:/");
         output.append(queries.find(query_id_str)->second);
-        //cout << "check string: \n" << output << endl;
+        cout << "check string: \n" << output << endl;
         int result1=1;
         if (check_epistemic(output))
         {
@@ -149,8 +127,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
         {
             result1=0;
         }
-        //cout << "check result: " << result1 << endl;
-        ObjectIdx count = result1;
+        cout << "check result: " << result1 << endl;
         time_counter = time_counter + aptk::time_used() - cur_time;
         return count;
 }

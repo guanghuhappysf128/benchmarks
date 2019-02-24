@@ -12,12 +12,13 @@ namespace pt = boost::property_tree;
 const string agent_str = "agent_info";
 const string object_str = "object_info";
 const string query_str = "query_info";
-const string object_id = "obj_1";
+const string agent_name = "agt_a";
 
 static ProblemState* state1;
 
 map<string,string> queries;
 map<int,string> pddl_objects;
+bool debug1 = false;
 
 void handleObjects(string str)
 {
@@ -60,10 +61,15 @@ static ProblemState generateS()
     bool start=false;
     glob_t globbuf;
     glob("definition/problem*.pddl",0,NULL, &globbuf);
-    //glob("definition/test*.pddl",0,NULL, &globbuf);
+    //glob("test*.pddl",0,NULL, &globbuf);
+
     const char* path = globbuf.gl_pathv[0];
     ifstream file;
     file.open(path,ios::in);
+    if (debug1)
+    {
+        std::cout << "file opened"<< endl;
+    }
     if(file.is_open())
     {
         while(getline(file,line))
@@ -71,6 +77,10 @@ static ProblemState generateS()
             size_t found;
             if ((found = line.find(agent_str))!=string::npos)
             {
+                if (debug1)
+                {
+                    std::cout << "agent: ----"<< line <<  endl;
+                }
                 line.erase(line.begin(),line.begin()+found+agent_str.length()+2);
                 line.erase(line.end()-1,line.end());
                 stringstream ss;
@@ -87,6 +97,10 @@ static ProblemState generateS()
             }
             else if ((found = line.find(object_str))!=string::npos)
             {
+                if (debug1)
+                {
+                    std::cout << "object: ----"<< line <<  endl;
+                }
                 line.erase(line.begin(),line.begin()+found+object_str.length()+2);
                 line.erase(line.end()-1,line.end());
                 stringstream ss;
@@ -103,7 +117,10 @@ static ProblemState generateS()
             }
             else if ((found = line.find(query_str))!=string::npos)
             {
-                //std::cout << line << endl;
+                if (debug1)
+                {
+                    std::cout << "query: ----"<< line <<  endl;
+                }
                 line.erase(line.begin(),line.begin()+found+query_str.length()+2);
                 line.erase(line.end()-1,line.end());
                 stringstream ss;

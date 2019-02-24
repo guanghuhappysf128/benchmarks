@@ -5,9 +5,9 @@ def getString(i,s,a):
 	# print("i is "+str(i)+", s is "+str(s))
 	if i > 0 and s > 0:
 		# print("i/a: "+str(int(i/a))+", i\%a: "+str(int(i%a)))
-		return getString(int(i/a),s-1,a) + " " + str(int(i % a+1))
+		return getString(int(i/a),s-1,a) + " " + str(int(i % a))
 	elif i == 0 and s > 0:
-		return getString(i,s-1,a) + " 1"
+		return getString(i,s-1,a) + " 0"
 	else:
 		return ""
 

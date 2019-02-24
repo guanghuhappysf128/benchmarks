@@ -7,8 +7,8 @@
 #include <iostream>
 #include <list>
 
-#ifndef SIM_GEN_STATE_H
-#define SIM_GEN_STATE_H
+#ifndef S_MEDIA_EPISTEMIC_CHECKER_HXX
+#define S_MEDIA_EPISTEMIC_CHECKER_HXX
 
 using namespace std;
 
@@ -150,7 +150,7 @@ public:
                 i.setV(value);
                 return true;
             }
-                
+
         }
         return false;
     }
@@ -216,7 +216,7 @@ public:
     }
 };
 
-class ProblemState  
+class ProblemState
 {
 private:
     vector<Agent> agents;
@@ -415,7 +415,7 @@ public:
             case DS: result.append("distributed sees "); break;
             case CS: result.append("commonly sees "); break;
             case SV: result.append("sees target "); break;
-            //default: assert("seeing type error when show");
+                //default: assert("seeing type error when show");
         }
         //cout << "seeing case fine"<<endl;
         switch (ptr_type)
@@ -424,7 +424,7 @@ public:
             case VARIABLE: result.append(variable_ptr->show());break;
 //            case OBJECT: result.append(object_ptr->second.show()); break;
 //            case AGENT: result.append(agent_ptr->second.show()); break;
-            //default: assert("seeing pointer type error when show");
+                //default: assert("seeing pointer type error when show");
         }
         //cout << "seeing next fine"<<endl;
         return result;
@@ -487,7 +487,7 @@ public:
             case EK: result.append("everyone knows "); break;
             case CK: result.append("commonly knows "); break;
             case DK: result.append("distributed knows "); break;
-            //default: assert("knowledge type error when show");
+                //default: assert("knowledge type error when show");
         }
         //cout << "kwnoing type fine"<<endl;
         //cout << result<<endl;
@@ -498,7 +498,7 @@ public:
 //            case AGENT: result.append(agent_ptr->second.show()); break;
             case VARIABLE: result.append(variable_ptr->show());break;
             case KNOWLEDGE: result.append(knowledge_ptr->show()); break;
-            //default: assert("knowledge pointer type error when init");
+                //default: assert("knowledge pointer type error when init");
         }
         //cout << "kwnoing next fine"<<endl;
         //cout << result<<endl;
@@ -539,7 +539,7 @@ public:
             case SEEING:
                 result.append("This is a seeing query:\n\t");
                 result.append(seeing_ptr->show()); break;
-            //default: assert("query type error when show");
+                //default: assert("query type error when show");
         }
         return result;
     };
@@ -570,4 +570,4 @@ bool sees(string agent_l,string target_l);
 
 
 
-#endif //SIM_GEN_STATE_H
+#endif //S_MEDIA_EPISTEMIC_CHECKER_HXX

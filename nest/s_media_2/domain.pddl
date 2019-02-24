@@ -19,8 +19,9 @@
 		
 		(posted ?p - part) - agent
 		(posted_encoding ?p1 - agent ?p2 - agent ?p3 - agent) - encoding
-		;(fact ?q - query) - boolean
+		(fact ?q - query) - boolean
 		(check ?l - encoding ?q - query) - boolean
+		(@check ?l - encoding ?q - query) - boolean
 		;(check ?l - encode ?s - agent ?q - query) - boolean
 	)
 
@@ -46,7 +47,7 @@
 	; 			(?q - query) 
 	; 			(when 
 	; 				(= 
-	; 					(check (posted_encoding ?) ?q) 1) 
+	; 					(@check (posted_encoding ?) ?q) 1) 
 	; 				(assign (fact ?q) 1)
 	; 			)
 	; 		)
