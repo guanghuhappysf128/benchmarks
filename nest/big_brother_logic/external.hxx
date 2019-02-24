@@ -47,7 +47,7 @@ public:
     int counter;
     float time_counter;
     float initial_time;
-
+    int m_callCounter;
 
 
     void registerComponents() const;
