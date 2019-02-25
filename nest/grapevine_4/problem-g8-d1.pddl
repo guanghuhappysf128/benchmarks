@@ -17,10 +17,6 @@
       ; {"agent_info":{"id":"2","location":"0","secret":"yes"}}
       ; {"agent_info":{"id":"3","location":"0","secret":"yes"}}
       ; {"agent_info":{"id":"4","location":"0","secret":"yes"}}
-      ; {"agent_info":{"id":"5","location":"0","secret":"yes"}}
-      ; {"agent_info":{"id":"6","location":"0","secret":"yes"}}
-      ; {"agent_info":{"id":"7","location":"0","secret":"yes"}}
-      ; {"agent_info":{"id":"8","location":"0","secret":"yes"}}
       ; {"object_info":{"id":"obj_1","location":"0","value":"obj111"}}
 
       ;(= (fact n1) 0)
@@ -685,7 +681,6 @@
         (= (fact n2) 0)
         (= (fact n3) 0)
         (= (fact n4) 0)
-        ;(= (fact n5) 0)
 
         ; when agt_a shouts, whether others can know what he knows
         ; {"query_info":{"id":"p1","query":"dk 1 obj_1:value:2"}}
@@ -697,7 +692,6 @@
         ; {"query_info":{"id":"n2","query":"dk 2 obj_1:value:1"}}
         ; {"query_info":{"id":"n3","query":"dk 3 obj_1:value:2"}}
         ; {"query_info":{"id":"n4","query":"dk 4 obj_1:value:3"}}
-        ; {"query_info":{"id":"n5","query":"dk 2 dk 1 obj_1:value:2"}}
 
       )
     )

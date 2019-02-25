@@ -37,7 +37,6 @@
 
 
       (slient)
-      (= (num_agent) 8)
 
       (= (location 1) 0)
       (= (location 2) 0)

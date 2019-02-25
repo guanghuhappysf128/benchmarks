@@ -37,7 +37,6 @@
 
 
       (slient)
-      (= (num_agent) 8)
 
       (= (location 1) 0)
       (= (location 2) 0)
@@ -675,16 +674,15 @@
         ;(= (fact n5) 0)
 
         ; when agt_a shouts, whether others can know what he knows
-        ; {"query_info":{"id":"p1","query":"dk 1 obj_1:value:2"}}
-        ; {"query_info":{"id":"p2","query":"dk 1 obj_1:value:3"}}
-        ; {"query_info":{"id":"p3","query":"dk 3 obj_1:value:4"}}
-        ; {"query_info":{"id":"p4","query":"dk 4 obj_1:value:1"}}
+        ; {"query_info":{"id":"p1","query":"dk 1 dk 1 obj_1:value:2"}}
+        ; {"query_info":{"id":"p2","query":"dk 2 dk 2 obj_1:value:3"}}
+        ; {"query_info":{"id":"p3","query":"dk 3 dk 3 obj_1:value:4"}}
+        ; {"query_info":{"id":"p4","query":"dk 4 dk 4 obj_1:value:1"}}
 
-        ; {"query_info":{"id":"n1","query":"dk 2 dk 1 obj_1:value:2"}}
-        ; {"query_info":{"id":"n2","query":"dk 2 dk 1 obj_1:value:3"}}
-        ; {"query_info":{"id":"n3","query":"dk 2 dk 3 obj_1:value:4"}}
-        ; {"query_info":{"id":"n4","query":"dk 2 dk 4 obj_1:value:1"}}
-        
+        ; {"query_info":{"id":"n1","query":"dk 1 obj_1:value:4"}}
+        ; {"query_info":{"id":"n2","query":"dk 2 obj_1:value:1"}}
+        ; {"query_info":{"id":"n3","query":"dk 3 obj_1:value:2"}}
+        ; {"query_info":{"id":"n4","query":"dk 4 obj_1:value:3"}}
         ; {"query_info":{"id":"n5","query":"dk 2 dk 1 obj_1:value:2"}}
 
       )

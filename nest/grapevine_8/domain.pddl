@@ -20,7 +20,6 @@
 		(fact ?q - query) - boolean
 		(k ?a - agent ?s - agent) - boolean
 		(layout) - encode2
-		(num_agent) - agent
 		;(@check ?l - encode ?l - loc ?s - agent ?q - query) - boolean
 		;(check ?l - encode ?s - agent ?q - query) - boolean
 		(@check ?l - encode2 ?l - loc ?s - agent ?q - query) - boolean

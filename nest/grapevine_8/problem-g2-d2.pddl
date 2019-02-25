@@ -663,18 +663,18 @@
         ; (= (dk 3) 0)
 
         (= (fact p1) 1)
-        (= (fact p2) 1)
-        (= (fact p3) 1)
-        (= (fact p4) 1)
+        ; (= (fact p2) 1)
+        ; (= (fact p3) 1)
+        ; (= (fact p4) 1)
 
         (= (fact n1) 0)
-        (= (fact n2) 0)
-        (= (fact n3) 0)
-        (= (fact n4) 0)
-        ;(= (fact n5) 0)
+        ; (= (fact n2) 0)
+        ; (= (fact n3) 0)
+        ; (= (fact n4) 0)
+        ; (= (fact n5) 0)
 
         ; when agt_a shouts, whether others can know what he knows
-        ; {"query_info":{"id":"p1","query":"dk 1 obj_1:value:2"}}
+        ; {"query_info":{"id":"p1","query":"dk 1 dk 1 obj_1:value:2"}}
         ; {"query_info":{"id":"p2","query":"dk 2 obj_1:value:3"}}
         ; {"query_info":{"id":"p3","query":"dk 3 obj_1:value:4"}}
         ; {"query_info":{"id":"p4","query":"dk 4 obj_1:value:1"}}

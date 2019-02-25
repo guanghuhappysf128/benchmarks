@@ -37,7 +37,6 @@
 
 
       (slient)
-      (= (num_agent) 8)
 
       (= (location 1) 0)
       (= (location 2) 0)
@@ -672,7 +671,7 @@
         ; (= (fact n2) 0)
         ; (= (fact n3) 0)
         ; (= (fact n4) 0)
-        ;(= (fact n5) 0)
+        ; (= (fact n5) 0)
 
         ; when agt_a shouts, whether others can know what he knows
         ; {"query_info":{"id":"p1","query":"dk 1 obj_1:value:2"}}

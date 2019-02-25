@@ -41,7 +41,12 @@ External::~External() {
     cout << "[INFO][Function] Number of calling: " << counter << endl;
     cout << "[INFO][Function] Initial Time: " << initial_time << endl;
     cout << "[INFO][Function] Total Checking Time: " << time_counter << endl;
-    //cout << "\n\n\n\nThis is end" << endl;
+    ofstream myfile;
+    myfile.open("running.txt");
+    myfile << "[INFO][Function] Number of calling: " << counter << endl;
+    myfile << "[INFO][Function] Initial Time: " << initial_time << endl;
+    myfile << "[INFO][Function] Total Checking Time: " << time_counter << endl;
+    myfile.close();    //cout << "\n\n\n\nThis is end" << endl;
     //cout << counter <<endl;
 
 }

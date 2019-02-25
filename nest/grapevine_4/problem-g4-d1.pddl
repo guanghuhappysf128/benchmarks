@@ -17,10 +17,6 @@
       ; {"agent_info":{"id":"2","location":"0","secret":"yes"}}
       ; {"agent_info":{"id":"3","location":"0","secret":"yes"}}
       ; {"agent_info":{"id":"4","location":"0","secret":"yes"}}
-      ; {"agent_info":{"id":"5","location":"0","secret":"yes"}}
-      ; {"agent_info":{"id":"6","location":"0","secret":"yes"}}
-      ; {"agent_info":{"id":"7","location":"0","secret":"yes"}}
-      ; {"agent_info":{"id":"8","location":"0","secret":"yes"}}
       ; {"object_info":{"id":"obj_1","location":"0","value":"obj111"}}
 
       ;(= (fact n1) 0)
@@ -37,7 +33,6 @@
 
 
       (slient)
-      (= (num_agent) 4)
 
       (= (location 1) 0)
       (= (location 2) 0)
