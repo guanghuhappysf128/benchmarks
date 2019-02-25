@@ -19,7 +19,7 @@ list<Variable> v_buff;
 
 
 ProblemState* state_ptr;
-bool debug = true;
+bool debug = false;
 //Query* query_ptr;
 
 void transQs(string query_str)
@@ -50,6 +50,7 @@ bool check_epistemic(string str)
     string state_str = state_query.at(1);
     //string facts_str =  state_query.at(3);
     string query_str = state_query.at(3);
+    state_query.clear();
 
     if (debug)
     {
@@ -66,6 +67,7 @@ bool check_epistemic(string str)
         cout << "\n\nStep 3:\n";
         cout << "Divided agent string and translate agents\n";
     }
+    state_list.clear();
 
     vector<string> agent_list = split(agent_str,'|');
 
@@ -78,7 +80,7 @@ bool check_epistemic(string str)
     {
         agents.push_back(translate<Agent>(i));
     }
-
+    agent_list.clear();
 
     if (debug)
     {
@@ -91,7 +93,7 @@ bool check_epistemic(string str)
     {
         objects.push_back(translate<Object>(i));
     }
-
+    target_list.clear();
 
     if (debug)
     {
@@ -232,11 +234,18 @@ bool check_epistemic(string str)
 //
 //        cout << "global state" << state_ptr->show() << endl;
     }
+    s_ptr_list.clear();
+    q_buff.clear();
+    s_buff.clear();
+    k_buff.clear();
+    v_buff.clear();
+    agents.clear();
+    objects.clear();
+    state_ptr -> clear();
 
 
 
-
-    cout << "final result is "<< result << endl;
+    //cout << "final result is "<< result << endl;
     return result;
 }
 

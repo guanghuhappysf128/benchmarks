@@ -83,19 +83,19 @@ bool ProblemState::checkS(Seeing &s)
                 Agent a = this->getAgent(i);
                 if (this->findAgent(s.seeing_ptr->variable_ptr->getId()))
                 {
-                    std::cout <<"------------1"<<endl;
+                    //std::cout <<"------------1"<<endl;
                     Agent target = this->getAgent(s.seeing_ptr->variable_ptr->getId());
                     return a.seesAgent(target);
                 }
                 else if (this->findObject(s.seeing_ptr->variable_ptr->getId()))
                 {
-                    std::cout <<"------------2"<<endl;
+                    //std::cout <<"------------2"<<endl;
                     Object target = this->getObject(s.seeing_ptr->variable_ptr->getId());
                     return a.seesObject(target);
                 }
                 else
                 {
-                    std::cout <<"------------3"<<endl;
+                    //std::cout <<"------------3"<<endl;
                     return false;
                 }
             }
@@ -111,13 +111,13 @@ bool ProblemState::checkS(Seeing &s)
             //this need to be a feature that every agent have, and it cannot be location because everyone know others location as assumption
             if (this->getAgent(i).getV("name")=="NONE")
             {
-                std::cout <<"------------4"<<endl;
+                //std::cout <<"------------4"<<endl;
                 return false;
             }
         }
         else
         {
-            std::cout <<"------------5"<<endl;
+            //std::cout <<"------------5"<<endl;
             return false;
         }
 

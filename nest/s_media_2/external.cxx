@@ -32,7 +32,6 @@ External::External( const ProblemInfo& info, const std::string& data_dir )
     float cur_time = aptk::time_used();
     initial();
     initial_time = aptk::time_used()-cur_time;
-    m_callCounter = 0;
     counter = 0;
 }
 
@@ -41,6 +40,12 @@ External::~External() {
     cout << "[INFO][Function] Number of calling: " << counter << endl;
     cout << "[INFO][Function] Initial Time: " << initial_time << endl;
     cout << "[INFO][Function] Total Checking Time: " << time_counter << endl;
+    ofstream myfile;
+    myfile.open("running.txt");
+    myfile << "[INFO][Function] Number of calling: " << counter << endl;
+    myfile << "[INFO][Function] Initial Time: " << initial_time << endl;
+    myfile << "[INFO][Function] Total Checking Time: " << time_counter << endl;
+    myfile.close();
     //cout << "\n\n\n\nThis is end" << endl;
     //cout << counter <<endl;
 
@@ -75,7 +80,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
         LPT_DEBUG("checking", "argument2 str :" << query_id_str << "");
 
 
-
+        
         int num_agt = state1->getAgents()->size();
         int num_obj = state1->getObjects()->size();
 
@@ -84,18 +89,18 @@ External::check(const std::vector<ObjectIdx>& args )  {
             if (!state1->findObject("obj_"+to_string(i)))
             {
                 //assert ("objects not found with id");
-                cout << "obj not found with id " << to_string(i)<<endl;
+                //cout << "obj not found with id " << to_string(i)<<endl;
             }
             else
             {
-                cout << "obj found with id " << to_string(i)<<endl;
+                //cout << "obj found with id " << to_string(i)<<endl;
                 if (state1->changeObjectV("obj_"+to_string(i),"belongsto",to_string(encoding_int%(num_agt+1))))
                 {
-                    cout << "var found with id " << to_string(i)<<endl;
+                    //cout << "var found with id " << to_string(i)<<endl;
                 }
                 else
                 {
-                    cout << "var not found with id " << to_string(i)<<endl;
+                    //cout << "var not found with id " << to_string(i)<<endl;
                    // assert("belongsto not found");
                 }
                 encoding_int = encoding_int/(num_agt+1);
@@ -107,7 +112,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
 
         output.append("/query:/");
         output.append(queries.find(query_id_str)->second);
-        cout << "check string: \n" << output << endl;
+        //cout << "check string: \n" << output << endl;
         int result1=1;
         if (check_epistemic(output))
         {
@@ -117,9 +122,14 @@ External::check(const std::vector<ObjectIdx>& args )  {
         {
             result1=0;
         }
-        cout << "check result: " << result1 << endl;
+        if (encoding_int==36)
+        {
+            cout << "encoding int is " << encoding_int << endl;
+            cout << "check result: " << result1 << endl;
+        }
 
-        //cout << "check result: " << result1 << endl;
+        //state1->clear();
+
         ObjectIdx count = result1;
         time_counter = time_counter + aptk::time_used() - cur_time;
         return count;
