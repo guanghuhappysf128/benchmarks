@@ -3,8 +3,8 @@
     (:domain grapevine)
     ; there is no comments allows in objects
     (:objects
-      p1 p2 p3 p4 p5 p6 p7 p8 - pos
-      n1 n2 n3 n4 n5 n6 n7 n8 - neg
+      p1 p2 p3 p4 - pos
+      n1 n2 n3 n4 - neg
     )
 
             
@@ -28,33 +28,25 @@
       (= (fact p2) 0)
       (= (fact p3) 0)
       (= (fact p4) 0)
-      (= (fact p5) 0)
-      (= (fact p6) 0)
-      (= (fact p7) 0)
-      (= (fact p8) 0)
       (= (fact n1) 0)
       (= (fact n2) 0)
       (= (fact n3) 0)
       (= (fact n4) 0)
-      (= (fact n5) 0)
-      (= (fact n6) 0)
-      (= (fact n7) 0)
-      (= (fact n8) 0)
       ;(= (fact p1) 0)
       ;(= (fact n5) 0)
 
 
       (slient)
-      (= (num_agent) 8)
+      (= (num_agent) 4)
 
       (= (location 1) 0)
       (= (location 2) 0)
       (= (location 3) 0)
       (= (location 4) 0)
-      (= (location 5) 0)
-      (= (location 6) 0)
-      (= (location 7) 0)
-      (= (location 8) 0)
+      ; (= (location 5) 0)
+      ; (= (location 6) 0)
+      ; (= (location 7) 0)
+      ; (= (location 8) 0)
 
       (= (posted_encoding 0 0 0 0) 0)
       (= (posted_encoding 0 0 0 1) 1)
@@ -336,66 +328,80 @@
       (= (k 1 2) 0)
       (= (k 1 3) 0)
       (= (k 1 4) 0)
-      (= (k 1 5) 0)
-      (= (k 1 6) 0)
-      (= (k 1 7) 0)
-      (= (k 1 8) 0)
+
       (= (k 2 1) 0)
       (= (k 2 2) 1)
       (= (k 2 3) 0)
       (= (k 2 4) 0)
-      (= (k 2 5) 0)
-      (= (k 2 6) 0)
-      (= (k 2 7) 0)
-      (= (k 2 8) 0)
+
       (= (k 3 1) 0)
       (= (k 3 2) 0)
       (= (k 3 3) 1)
       (= (k 3 4) 0)
-      (= (k 3 5) 0)
-      (= (k 3 6) 0)
-      (= (k 3 7) 0)
-      (= (k 3 8) 0)
+
       (= (k 4 1) 0)
       (= (k 4 2) 0)
       (= (k 4 3) 0)
       (= (k 4 4) 1)
-      (= (k 4 5) 0)
-      (= (k 4 6) 0)
-      (= (k 4 7) 0)
-      (= (k 4 8) 0)
-      (= (k 5 1) 0)
-      (= (k 5 2) 0)
-      (= (k 5 3) 0)
-      (= (k 5 4) 0)
-      (= (k 5 5) 1)
-      (= (k 5 6) 0)
-      (= (k 5 7) 0)
-      (= (k 5 8) 0)
-      (= (k 6 1) 0)
-      (= (k 6 2) 0)
-      (= (k 6 3) 0)
-      (= (k 6 4) 0)
-      (= (k 6 5) 0)
-      (= (k 6 6) 1)
-      (= (k 6 7) 0)
-      (= (k 6 8) 0)
-      (= (k 7 1) 0)
-      (= (k 7 2) 0)
-      (= (k 7 3) 0)
-      (= (k 7 4) 0)
-      (= (k 7 5) 0)
-      (= (k 7 6) 0)
-      (= (k 7 7) 1)
-      (= (k 7 8) 0)
-      (= (k 8 1) 0)
-      (= (k 8 2) 0)
-      (= (k 8 3) 0)
-      (= (k 8 4) 0)
-      (= (k 8 5) 0)
-      (= (k 8 6) 0)
-      (= (k 8 7) 0)
-      (= (k 8 8) 1)
+
+
+
+
+
+
+      ; (= (k 1 5) 0)
+      ; (= (k 1 6) 0)
+      ; (= (k 1 7) 0)
+      ; (= (k 1 8) 0)
+      ; (= (k 2 5) 0)
+      ; (= (k 2 6) 0)
+      ; (= (k 2 7) 0)
+      ; (= (k 2 8) 0)
+      ; (= (k 3 1) 0)
+      ; (= (k 3 2) 0)
+      ; (= (k 3 3) 1)
+      ; (= (k 3 4) 0)
+      ; (= (k 3 5) 0)
+      ; (= (k 3 6) 0)
+      ; (= (k 3 7) 0)
+      ; (= (k 3 8) 0)
+
+      ; (= (k 4 5) 0)
+      ; (= (k 4 6) 0)
+      ; (= (k 4 7) 0)
+      ; (= (k 4 8) 0)
+      ; (= (k 5 1) 0)
+      ; (= (k 5 2) 0)
+      ; (= (k 5 3) 0)
+      ; (= (k 5 4) 0)
+      ; (= (k 5 5) 1)
+      ; (= (k 5 6) 0)
+      ; (= (k 5 7) 0)
+      ; (= (k 5 8) 0)
+      ; (= (k 6 1) 0)
+      ; (= (k 6 2) 0)
+      ; (= (k 6 3) 0)
+      ; (= (k 6 4) 0)
+      ; (= (k 6 5) 0)
+      ; (= (k 6 6) 1)
+      ; (= (k 6 7) 0)
+      ; (= (k 6 8) 0)
+      ; (= (k 7 1) 0)
+      ; (= (k 7 2) 0)
+      ; (= (k 7 3) 0)
+      ; (= (k 7 4) 0)
+      ; (= (k 7 5) 0)
+      ; (= (k 7 6) 0)
+      ; (= (k 7 7) 1)
+      ; (= (k 7 8) 0)
+      ; (= (k 8 1) 0)
+      ; (= (k 8 2) 0)
+      ; (= (k 8 3) 0)
+      ; (= (k 8 4) 0)
+      ; (= (k 8 5) 0)
+      ; (= (k 8 6) 0)
+      ; (= (k 8 7) 0)
+      ; (= (k 8 8) 1)
 
 
 
@@ -672,45 +678,26 @@
         ; (= (dk 3) 0)
 
         (= (fact p1) 1)
-        (= (fact p2) 1)
-        (= (fact p3) 1)
-        (= (fact p4) 1)
-        (= (fact p5) 1)
-        (= (fact p6) 1)
-        (= (fact p7) 1)
-        (= (fact p8) 1)
+        ;(= (fact p2) 1)
+        ;(= (fact p3) 1)
+        ;(= (fact p4) 1)
 
         (= (fact n1) 0)
-        (= (fact n2) 0)
-        (= (fact n3) 0)
-        (= (fact n4) 0)
-        (= (fact n5) 0)
-        (= (fact n6) 0)
-        (= (fact n7) 0)
-        (= (fact n8) 0)
+        ;(= (fact n2) 0)
+        ;(= (fact n3) 0)
+        ;(= (fact n4) 0)
         ;(= (fact n5) 0)
 
         ; when agt_a shouts, whether others can know what he knows
-        ; {"query_info":{"id":"p1","query":"dk 1 obj_1:value:2"}}
+        ; {"query_info":{"id":"p1","query":"dk 1 dk 1 obj_1:value:2"}}
         ; {"query_info":{"id":"p2","query":"dk 2 obj_1:value:3"}}
         ; {"query_info":{"id":"p3","query":"dk 3 obj_1:value:4"}}
-        ; {"query_info":{"id":"p4","query":"dk 4 obj_1:value:5"}}
-        ; {"query_info":{"id":"p5","query":"dk 5 obj_1:value:6"}}
-        ; {"query_info":{"id":"p6","query":"dk 6 obj_1:value:7"}}
-        ; {"query_info":{"id":"p7","query":"dk 7 obj_1:value:8"}}
-        ; {"query_info":{"id":"p8","query":"dk 8 obj_1:value:1"}}
+        ; {"query_info":{"id":"p4","query":"dk 4 obj_1:value:1"}}
 
-
-        ; {"query_info":{"id":"n1","query":"dk 1 obj_1:value:8"}}
+        ; {"query_info":{"id":"n1","query":"dk 1 obj_1:value:4"}}
         ; {"query_info":{"id":"n2","query":"dk 2 obj_1:value:1"}}
         ; {"query_info":{"id":"n3","query":"dk 3 obj_1:value:2"}}
         ; {"query_info":{"id":"n4","query":"dk 4 obj_1:value:3"}}
-        ; {"query_info":{"id":"n5","query":"dk 5 obj_1:value:4"}}
-        ; {"query_info":{"id":"n6","query":"dk 6 obj_1:value:5"}}
-        ; {"query_info":{"id":"n7","query":"dk 7 obj_1:value:6"}}
-        ; {"query_info":{"id":"n8","query":"dk 8 obj_1:value:7"}}
-
-
         ; {"query_info":{"id":"n5","query":"dk 2 dk 1 obj_1:value:2"}}
 
       )
@@ -721,6 +708,6 @@
         (encode - int[0..15])
         (encode2 - int[0..255])
         (loc - int[0..1])
-        (agent - int[1..8])
+        (agent - int[1..4])
     )
 )

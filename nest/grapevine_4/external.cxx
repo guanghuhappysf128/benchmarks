@@ -33,7 +33,6 @@ External::External( const ProblemInfo& info, const std::string& data_dir )
     initial();
     //cout << "initial success!\n";
     initial_time = aptk::time_used()-cur_time;
-    m_callCounter = 0;
     counter = 0;
 }
 
@@ -61,12 +60,11 @@ External::check(const std::vector<ObjectIdx>& args )  {
         //this->m_callCounter++;
         counter++;
         //cout << counter << endl;
-        cout << "calling external function"<< endl;
-        ObjectIdx agent_num = args[0];
-        ObjectIdx room_encoding = args[1];
-        ObjectIdx obj_loc = args[2];
-        ObjectIdx obj_val = args[3];
-        ObjectIdx query_id = args[4];
+        //cout << "calling external function"<< endl;
+        ObjectIdx room_encoding = args[0];
+        ObjectIdx obj_loc = args[1];
+        ObjectIdx obj_val = args[2];
+        ObjectIdx query_id = args[3];
         int room_encoding_int = room_encoding;
         int obj_loc_int = obj_loc;
         int obj_val_int = obj_val;
@@ -83,7 +81,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
         LPT_DEBUG("checking", "argument4 str:" << query_id_str << "");
         //cout << query_id_int << endl;
         //cout << query_id_str << endl;
-
+        int agent_num = state1->getAgents()->size();
         for (int i=agent_num;i>0;i--)
         {
             if (!state1->findAgent(to_string(i)))

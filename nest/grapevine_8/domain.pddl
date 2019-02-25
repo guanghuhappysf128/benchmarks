@@ -23,7 +23,7 @@
 		(num_agent) - agent
 		;(@check ?l - encode ?l - loc ?s - agent ?q - query) - boolean
 		;(check ?l - encode ?s - agent ?q - query) - boolean
-		(@check ?n - agent ?l - encode2 ?l - loc ?s - agent ?q - query) - boolean
+		(@check ?l - encode2 ?l - loc ?s - agent ?q - query) - boolean
 	)
 
 	(:action prepare
@@ -55,7 +55,7 @@
 			(slient)
 			(not (sharing ?a ?s))
 			(forall (?ta - agent) (when (= (location ?a) (location ?ta)) (assign (k ?ta ?s) 1)))
-			(forall (?q - query) (when (= (@check (num_agent) (layout) (location ?a) ?s ?q) 1) (assign (fact ?q) 1)))
+			(forall (?q - query) (when (= (@check (layout) (location ?a) ?s ?q) 1) (assign (fact ?q) 1)))
 		)
 
 
