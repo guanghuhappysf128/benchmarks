@@ -80,7 +80,10 @@ bool ProblemState::checkS(Seeing &s)
         {
             if (this->findAgent(i))
             {
+
                 Agent a = this->getAgent(i);
+                //cout << "This agent is "<< endl;
+                //cout << a.show() << endl;
                 if (this->findAgent(s.seeing_ptr->variable_ptr->getId()))
                 {
                     //std::cout <<"------------1"<<endl;
@@ -90,8 +93,10 @@ bool ProblemState::checkS(Seeing &s)
                 else if (this->findObject(s.seeing_ptr->variable_ptr->getId()))
                 {
                     //std::cout <<"------------2"<<endl;
+                    return (this->getObject(s.seeing_ptr->variable_ptr->getId()).getV("value")!="NONE");
+
                     Object target = this->getObject(s.seeing_ptr->variable_ptr->getId());
-                    return a.seesObject(target);
+                    //return a.seesObject(target);
                 }
                 else
                 {

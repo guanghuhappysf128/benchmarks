@@ -291,7 +291,7 @@
 
 
         ; when agt_a shouts, whether others can know what he knows
-        ; {"query_info":{"id":"p1","query":"ek 2,3 obj_1:value:obj111"}}
+        ; {"query_info":{"id":"p1","query":"es 2,3 obj_1:value:obj111|es 2,3 obj_2:value:obj222|es 2,3 obj_3:value:obj333"}}
         ;{"id":"p1","query":"es 2,3 obj_1:value:obj111|es 2,3 obj_2:value:obj222|es 2,3 obj_3:value:obj333"}}
         ; {"query_info":{"id":"p2","query":"ds 1 obj_1:value:obj111|ds 1 obj_2:value:obj222|ds 1 obj_3:value:obj333"}}
         ; {"query_info":{"id":"p3","query":"dk 3 obj_1:value:4"}}

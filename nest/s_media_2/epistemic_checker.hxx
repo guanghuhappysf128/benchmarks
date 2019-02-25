@@ -231,8 +231,8 @@ public:
     };
     void clear()
     {
-        this -> agents.clear();
-        this -> objects.clear();
+        agents.clear();
+        objects.clear();
     };
     string show()
     {
