@@ -19,7 +19,6 @@ list<Variable> v_buff;
 
 
 ProblemState* state_ptr;
-//bool debug = true;
 bool debug = false;
 //Query* query_ptr;
 
@@ -118,11 +117,11 @@ bool check_epistemic(string str)
 
     if (debug)
     {
-        cout <<"query done"<<endl;
-        for (auto i: q_buff)
-        {
-            cout <<"Query is: " << i.show()<< endl;
-        }
+         cout <<"query done"<<endl;
+         for (auto i: q_buff)
+         {
+             cout <<"Query is: " << i.show()<< endl;
+         }
     }
 
 
@@ -176,68 +175,37 @@ bool check_epistemic(string str)
     for (auto i : s_ptr_list)
     {
         bool temp=true;
-        ProblemState temp_s=*state_ptr;
-        Seeing* temp_i=i;
-        while (temp_i->ptr_type!=Seeing::VARIABLE && temp_i->seeing_type!=Seeing::SV &&temp_i->seeing_ptr->ptr_type!=Seeing::VARIABLE)
+        if (i->ptr_type==Seeing::VARIABLE)
         {
+            ProblemState temp_s=i->getState(*state_ptr);
             if (debug)
             {
-                cout << "this is seeing: "<<temp_i->show()<<endl;
-                cout << "seeing type is" << temp_i->seeing_type << "is smae as " << Seeing::SV << endl;
                 cout << "localstate is: "<<temp_s.show()<<endl;
+                cout << "variable is: "<<i->variable_ptr->show()<<endl;
             }
-            temp_s = i->getState(temp_s);
-//            cout << "new tmep state";
-//            cout << temp_s.show();
-            temp_i = temp_i->seeing_ptr;
-//            cout << "new tmep seeing"<<endl;
-//            cout << temp_i->show()<<endl;
-        }
-        if(temp_i->ptr_type==Seeing::VARIABLE)
-        {
-//            cout << "--------------------------1"<<endl;
-            temp=temp_s.checkV(*temp_i->variable_ptr);
-        }
-        if(temp_i->seeing_ptr->ptr_type==Seeing::VARIABLE)
-        {
-//            cout << "--------------------------2"<<endl;
-            temp_s = temp_i->getState(temp_s);
-            temp=temp_s.checkV(*temp_i->seeing_ptr->variable_ptr);
-        }
 
-//        if (i->ptr_type==Seeing::VARIABLE)
-//        {
-//
-//            ProblemState temp_s=i->getState(*state_ptr);
-//            if (debug)
-//            {
-//                cout << "this is seeing: "<<i->show()<<endl;
-//                cout << "localstate is: "<<temp_s.show()<<endl;
-//                cout << "variable is: "<<i->variable_ptr->show()<<endl;
-//            }
-//
-//            temp=temp_s.checkV(*i->variable_ptr);
-//        }
-//            //temp=i->getState(*state_ptr).checkV(*i->variable_ptr);
-//        else
-//        {
-//            ProblemState temp_s=i->getState(*state_ptr);
-//            if (debug)
-//            {
-//                cout << "state is: "<<temp_s.show()<<endl;
-//                cout << "seeeing is: "<<i->show()<<endl;
-//            }
-//
-//            temp=temp_s.checkS(*i);
-//        }
+            temp=temp_s.checkV(*i->variable_ptr);
+        }
+            //temp=i->getState(*state_ptr).checkV(*i->variable_ptr);
+        else
+        {
+            ProblemState temp_s=i->getState(*state_ptr);
+            if (debug)
+            {
+                cout << "state is: "<<temp_s.show()<<endl;
+                cout << "seeeing is: "<<i->seeing_ptr->show()<<endl;
+            }
+
+            temp=temp_s.checkS(*i);
+        }
         if (debug)
         {
+//            temp=i->getState(*state_ptr).checkS(*i->seeing_ptr);
             cout<< "checking seeing: "<<i->show()<<i->ptr_type<<" right now.\nresult is: "<<temp<<endl;
         }
 
         result = result&&temp;
     }
-
 
 
 
@@ -263,17 +231,20 @@ bool check_epistemic(string str)
 //
 //
 //        cout << "global state" << state_ptr->show() << endl;
-        cout << "final result is "<< result << endl;
     }
     q_buff.clear();
     s_buff.clear();
     k_buff.clear();
     v_buff.clear();
+    agents.clear();
+    objects.clear();
+    state_ptr->clear();
+    s_ptr_list.clear();
 
 
 
 
-
+    //cout << "final result is "<< result << endl;
     return result;
 }
 
@@ -520,7 +491,7 @@ Agent mergingAgent(bool uni,Agent &a1,Agent &a2)
             string temp = a1.getV(i.getName());
             if(temp != "NONE")
             {
-                if(temp != "" && temp != i.getValue()) result_agent.addVariable(i.getName(),temp);
+                if(temp != "") result_agent.addVariable(i.getName(),temp);
                 //else result_agent.addVariable(i.getName(),i.getValue());
             }
             else result_agent.addVariable(i.getName(),i.getValue());
@@ -549,12 +520,9 @@ Object mergingObject(bool uni,Object &o1,Object &o2)
     Object result_object(o1.getId());
     if (uni)
     {
-        //cout << "uni is true" << endl;
         for (auto i: o1.variables)
         {
-            //cout << "this is variable " << i.getName() << endl;
             string temp = o2.getV(i.getName());
-            //cout << "value in o2 is " << temp << endl;
             if(temp != "NONE")
             {
                 if(temp != "") result_object.addVariable(i.getName(),temp);
@@ -564,13 +532,10 @@ Object mergingObject(bool uni,Object &o1,Object &o2)
         }
         for (auto i: o2.variables)
         {
-            //cout << "this is variable " << i.getName() << endl;
             string temp = o1.getV(i.getName());
-            //cout << "value in o1 is " << temp << endl;
-            //cout << "value in o2 is " << i.getValue() <<endl;
             if(temp != "NONE")
             {
-                if(temp != "" && temp != i.getValue()) result_object.addVariable(i.getName(),temp);
+                if(temp != "") result_object.addVariable(i.getName(),temp);
                 //else result_agent.addVariable(i.getName(),i.getValue());
             }
             else result_object.addVariable(i.getName(),i.getValue());
@@ -626,12 +591,10 @@ ProblemState mergingState(bool uni,ProblemState s1,ProblemState s2)
 
 ProblemState Seeing::getState(ProblemState s)
 {
-    //cout<<"get in getState:" <<agent_ids.front() << endl;
-    //cout << "current seeing is " << this->show() << endl;
-    //print_list(agent_ids);
+//    cout<<"get in getState:" <<agent_ids.front() << endl;
     if (!s.findAgent(agent_ids.front()))
     {
-        //cout << "agent id error on get state" << endl;
+//        cout << "agent id error on get state" << endl;
         //assert("agent id error on get state");
 
     }
@@ -679,7 +642,7 @@ ProblemState Seeing::getState(ProblemState s)
 //                        cout << result_state.show() << endl;
 //                        cout << "Second state before merge" << endl;
 //                        cout << s.getAgentState(t_agt).show()<< endl;
-                        result_state = mergingState(true,result_state,s.getAgentState(t_agt));
+                          result_state = mergingState(true,result_state,s.getAgentState(t_agt));
 //                        result_state = result1;
 //                        cout << "Result state" << endl;
 //                        cout << result_state.show() << endl;
@@ -691,38 +654,24 @@ ProblemState Seeing::getState(ProblemState s)
             else if (this->seeing_type == CS)
             {
                 //cout<<"get in cs" << endl;
-
-                ProblemState temp_state =result_state;
-                result_state = s;
+                ProblemState temp_state =s;
                 while(!result_state.compare(temp_state))
                 {
-//                    cout << "result STATE" << endl;
-//
-//                    cout << result_state.show() << endl;
-//                    cout << "temp state" << endl;
+
+                    temp_state=result_state;
+//                    cout << "CURRENT STATE" << endl;
 //                    cout << temp_state.show() << endl;
-
-
-                    temp_state = result_state;
-                    //cout << "temp state2" << endl;
-                    //cout << temp_state.show() << endl;
                     for (auto i:agent_ids)
                     {
-                        Agent t_agt = temp_state.getAgent(i);
+                        Agent t_agt = s.getAgent(i);
                         //if (t_agt!=NULL)
                         {
-                            //cout << "--------------This is agent: " << t_agt.getId() << endl;
-                            //cout << temp_state.getAgentState(t_agt).show();
                             result_state = mergingState(false,result_state,temp_state.getAgentState(t_agt));
-                            //cout << "Changed result state" << endl;
-                            //cout << result_state.show() << endl;
                         }
                     }
 
-
-
                 }
-            } else{result_state=s;}
+            }
         }
         return result_state;
     }

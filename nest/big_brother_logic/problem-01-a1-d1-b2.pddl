@@ -3,7 +3,6 @@
     (:domain testing_camera)
     (:objects
         p1 - pos
-        n1 - neg
     )
 
     (:init
@@ -27,11 +26,11 @@
 
       (and
 
-        ;(= (@check1 (camera1_x) (camera1_y) (camera1_direction) p1) 1)
-        (= (@check1 (camera1_x) (camera1_y) (camera1_direction) n1) 0)
-        (= (fact p1) 1)
+        (= (@check1 (camera1_x) (camera1_y) (camera1_direction) p1) 1)
+        ;(= (@check1 (camera1_x) (camera1_y) (camera1_direction) n1) 0)
+        ;(= (fact p1) 1)
         ;(= (fact n1) 0)
-        ; {"query_info":{"id":"p1","query":"dk agt_b obj_2:name:box2"}}
+        ; {"query_info":{"id":"p1","query":"dk agt_a obj_2:name:box2"}}
         ; {"query_info":{"id":"n1","query":"dk agt_b agt_a:name:alice"}}
       )
     )

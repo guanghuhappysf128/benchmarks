@@ -229,6 +229,12 @@ public:
         this -> agents = agents;
         this -> objects = objects;
     };
+
+    void clear()
+    {
+        this -> agents.clear();
+        this -> objects.clear();
+    };
     string show()
     {
         string result;

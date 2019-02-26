@@ -11,12 +11,12 @@
       ; {"agent_info":{"id":"agt_a","location":"5,5","direction":"45","range":"90","name":"alice"}}
       ; {"agent_info":{"id":"agt_b","location":"15,15","direction":"-135","range":"90","name":"bob"}}
 
-      ; {"object_info":{"id":"obj_1","location":"0,0","name":"box1"}}
+      ; {"object_info":{"id":"obj_1","location":"1,1","name":"box1"}}
       ; {"object_info":{"id":"obj_2","location":"10,10","name":"box2"}}
       ; {"object_info":{"id":"obj_3","location":"19,19","name":"box3"}}
       
-      ; (= (fact n1) 0)
-      ; (= (fact p1) 0)      
+      ;(= (fact n1) 0)
+      (= (fact p1) 0)      
 
       (= (camera1_direction) 45)
       (= (camera1_x) 5)
@@ -28,14 +28,17 @@
       (and
 
         (= (@check1 (camera1_x) (camera1_y) (camera1_direction) p1) 1)
-        ; {"query_info":{"id":"p1","query":"dk agt_b obj_1:name:box1"}}
+        ;(= (@check1 (camera1_x) (camera1_y) (camera1_direction) n1) 0)
+        ;(= (fact p1) 1)
+        ;(= (fact n1) 0)
+        ; {"query_info":{"id":"p1","query":"dk agt_a,agt_b obj_1:name:box1|dk agt_a,agt_b obj_2:name:box2|dk agt_a,agt_b obj_3:name:box3"}}
         ; {"query_info":{"id":"n1","query":"dk agt_b agt_a:name:alice"}}
       )
     )
 
     (:bounds
-        (x - int[0..20]) 
-        (y - int[0..20]) 
+        (x - int[-20..20]) 
+        (y - int[-20..20]) 
         (r - int[-179..180]) 
         ;(r - int[0..1])
         (boolean - int[0..1]) 

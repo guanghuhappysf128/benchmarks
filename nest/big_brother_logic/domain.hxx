@@ -86,23 +86,68 @@ bool ProblemState::checkS(Seeing &s)
     {
         for (auto i:s.agent_ids)
         {
-            if (this->findAgent(i))
+            if (this->findAgent(i) && s.seeing_ptr->seeing_type == Seeing::DS)
             {
                 Agent a = this->getAgent(i);
                 if (this->findAgent(s.seeing_ptr->variable_ptr->getId()))
                 {
                     Agent target = this->getAgent(s.seeing_ptr->variable_ptr->getId());
-                    return a.seesAgent(target);
+                    if (a.seesAgent(target)) return true;
                 }
                 else if (this->findObject(s.seeing_ptr->variable_ptr->getId()))
                 {
                     Object target = this->getObject(s.seeing_ptr->variable_ptr->getId());
-                    return a.seesObject(target);
+                    if (a.seesObject(target)) return true;
                 }
                 else return false;
-
+            }
+            else if (this->findAgent(i) && s.seeing_ptr->seeing_type == Seeing::CS)
+            {
+                Agent a = this->getAgent(i);
+                if (this->findAgent(s.seeing_ptr->variable_ptr->getId()))
+                {
+                    Agent target = this->getAgent(s.seeing_ptr->variable_ptr->getId());
+                    if (!a.seesAgent(target)) return false;
+                }
+                else if (this->findObject(s.seeing_ptr->variable_ptr->getId()))
+                {
+                    Object target = this->getObject(s.seeing_ptr->variable_ptr->getId());
+                    if (!a.seesObject(target)) return false;
+                }
+                else return true;
+            }
+            else if (this->findAgent(i) && s.seeing_ptr->seeing_type == Seeing::ES)
+            {
+                Agent a = this->getAgent(i);
+                if (this->findAgent(s.seeing_ptr->variable_ptr->getId()))
+                {
+                    Agent target = this->getAgent(s.seeing_ptr->variable_ptr->getId());
+                    if (!a.seesAgent(target)) return false;
+                }
+                else if (this->findObject(s.seeing_ptr->variable_ptr->getId()))
+                {
+                    Object target = this->getObject(s.seeing_ptr->variable_ptr->getId());
+                    if (!a.seesObject(target)) return false;
+                }
+                else return true;
+            }
+            else if (this->findAgent(i) && s.seeing_ptr->seeing_type == Seeing::SV)
+            {
+//                Agent a = this->getAgent(i);
+//                if (this->findAgent(s.seeing_ptr->variable_ptr->getId()))
+//                {
+//                    Agent target = this->getAgent(s.seeing_ptr->variable_ptr->getId());
+//                    if (!a.seesAgent(target)) return false;
+//                }
+//                else if (this->findObject(s.seeing_ptr->variable_ptr->getId()))
+//                {
+//                    Object target = this->getObject(s.seeing_ptr->variable_ptr->getId());
+//                    if (!a.seesObject(target)) return false;
+//                }
+//                else return true;
             }
         }
+        return false;
     }
 
     for (auto i:s.seeing_ptr->agent_ids)

@@ -165,11 +165,11 @@ External::check1(const std::vector<ObjectIdx>& args ) {
 
     }
 
-    if (camera1_x == -12 && result1==0)
-    {
-              cout << output <<endl;
-      cout << "result is " << result1<<endl;
-    }
+    // if (result1==0)
+    // {
+    //     cout << output <<endl;
+    //     cout << "result is " << result1<<endl;
+    // }
     
     ObjectIdx count = result1;  
     time_counter = time_counter + aptk::time_used() - cur_time;
