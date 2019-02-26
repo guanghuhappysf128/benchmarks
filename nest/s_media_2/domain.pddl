@@ -9,8 +9,8 @@
 	)
 
 	(:predicates
-		(post_at ?p - part ?a - agent)
-		(goal)
+		;(post_at ?p - part ?a - agent)
+		;(goal)
 		(facts ?q - query)
 		;(start)
 		;; this is not working, so you need to write them separately
@@ -36,7 +36,7 @@
 			)
 		:effect
 		(and
-			(post_at ?p ?a)
+			;(post_at ?p ?a)
 			(assign (posted ?p) ?a)
 			(forall (?q - query) (when (= (@check (posted_encoding (posted 1) (posted 2) (posted 3)) ?q) 1) (assign (fact ?q) 1)))
 		)

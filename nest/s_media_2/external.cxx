@@ -122,11 +122,11 @@ External::check(const std::vector<ObjectIdx>& args )  {
         {
             result1=0;
         }
-        if (encoding_int==36)
-        {
-            cout << "encoding int is " << encoding_int << endl;
-            cout << "check result: " << result1 << endl;
-        }
+        // if (encoding_int==36||result1 == 1)
+        // {
+        //     cout << "encoding int is " << encoding_int << endl;
+        //     cout << "check result: " << result1 << endl;
+        // }
 
         //state1->clear();
 
