@@ -117,11 +117,11 @@ bool check_epistemic(string str)
 
     if (debug)
     {
-         cout <<"query done"<<endl;
-         for (auto i: q_buff)
-         {
-             cout <<"Query is: " << i.show()<< endl;
-         }
+        cout <<"query done"<<endl;
+        for (auto i: q_buff)
+        {
+            cout <<"Query is: " << i.show()<< endl;
+        }
     }
 
 
@@ -193,7 +193,7 @@ bool check_epistemic(string str)
             if (debug)
             {
                 cout << "state is: "<<temp_s.show()<<endl;
-                cout << "seeeing is: "<<i->seeing_ptr->show()<<endl;
+                cout << "seeeing is: "<<i->show()<<endl;
             }
 
             temp=temp_s.checkS(*i);
@@ -638,7 +638,7 @@ ProblemState Seeing::getState(ProblemState s)
 //                        cout << result_state.show() << endl;
 //                        cout << "Second state before merge" << endl;
 //                        cout << s.getAgentState(t_agt).show()<< endl;
-                          result_state = mergingState(true,result_state,s.getAgentState(t_agt));
+                        result_state = mergingState(true,result_state,s.getAgentState(t_agt));
 //                        result_state = result1;
 //                        cout << "Result state" << endl;
 //                        cout << result_state.show() << endl;
@@ -650,21 +650,35 @@ ProblemState Seeing::getState(ProblemState s)
             else if (this->seeing_type == CS)
             {
                 //cout<<"get in cs" << endl;
-                ProblemState temp_state =s;
+
+                ProblemState temp_state =result_state;
+                result_state = s;
                 while(!result_state.compare(temp_state))
                 {
-
-                    temp_state=result_state;
-//                    cout << "CURRENT STATE" << endl;
+//                    cout << "result STATE" << endl;
+//
+//                    cout << result_state.show() << endl;
+//                    cout << "temp state" << endl;
 //                    cout << temp_state.show() << endl;
+
+
+                    temp_state = result_state;
+                    //cout << "temp state2" << endl;
+                    //cout << temp_state.show() << endl;
                     for (auto i:agent_ids)
                     {
-                        Agent t_agt = s.getAgent(i);
+                        Agent t_agt = temp_state.getAgent(i);
                         //if (t_agt!=NULL)
                         {
+                            //cout << "--------------This is agent: " << t_agt.getId() << endl;
+                            //cout << temp_state.getAgentState(t_agt).show();
                             result_state = mergingState(false,result_state,temp_state.getAgentState(t_agt));
+                            //cout << "Changed result state" << endl;
+                            //cout << result_state.show() << endl;
                         }
                     }
+
+
 
                 }
             }

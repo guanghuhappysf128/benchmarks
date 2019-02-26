@@ -13,11 +13,11 @@
 
         ; initial states and only agent a is movable
 
-        ; {"agent_info":{"id":"1","friendwith1":"1","friendwith2":"1","friendwith3":"1","friendwith4":"1"}}
-        ; {"agent_info":{"id":"2","friendwith2":"1","friendwith1":"1","friendwith5":"1"}}
-        ; {"agent_info":{"id":"3","friendwith3":"1","friendwith1":"1","friendwith4":"1"}}
-        ; {"agent_info":{"id":"4","friendwith4":"1","friendwith1":"1","friendwith3":"1","friendwith5":"1"}}
-        ; {"agent_info":{"id":"5","friendwith5":"1","friendwith2":"1","friendwith4":"1"}}
+        ; {"agent_info":{"id":"1","exist":"true","friendwith1":"1","friendwith2":"1","friendwith3":"1","friendwith4":"1"}}
+        ; {"agent_info":{"id":"2","exist":"true","friendwith2":"1","friendwith1":"1","friendwith5":"1"}}
+        ; {"agent_info":{"id":"3","exist":"true","friendwith3":"1","friendwith1":"1","friendwith4":"1"}}
+        ; {"agent_info":{"id":"4","exist":"true","friendwith4":"1","friendwith1":"1","friendwith3":"1","friendwith5":"1"}}
+        ; {"agent_info":{"id":"5","exist":"true","friendwith5":"1","friendwith2":"1","friendwith4":"1"}}
         ; {"object_info":{"id":"obj_1","belongsto":"0","value":"obj111"}}
         ; {"object_info":{"id":"obj_2","belongsto":"0","value":"obj222"}}
         ; {"object_info":{"id":"obj_3","belongsto":"0","value":"obj333"}}

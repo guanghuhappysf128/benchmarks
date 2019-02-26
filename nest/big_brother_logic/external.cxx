@@ -73,7 +73,7 @@ External::check1(const std::vector<ObjectIdx>& args ) {
     float cur_time = aptk::time_used();
     counter++;
 
-    cout<<"get in check1"<<endl;
+    //cout<<"get in check1"<<endl;
     //cout << "Step 1" <<endl;
     ObjectIdx camera1_x = args[0];
     ObjectIdx camera1_y = args[1];
@@ -100,21 +100,7 @@ External::check1(const std::vector<ObjectIdx>& args ) {
     LPT_DEBUG("checking", "argument4 :" << location_str << "");
     //cout << "This is location string" << location_str << endl;
     //cout << "Step 2" <<endl;
-    // string output;
-    // output.append("state:/agents: ");
-    // std::_List_const_iterator<External::agent> i = agents.begin();
-    // //output.append(i->name);
-    // //output.append(";id:");
-    // output.append(i->id);
-    // output.append(";location:");
-    // output.append(to_string((int)camera1_x));
-    // output.append(",");
-    // output.append(to_string((int)camera1_y));
-    // output.append(";direction:");
-    // output.append(to_string((int)camera1_dir));
-    // output.append(";range:");
-    // output.append(i->range);
-    // output.append("|");
+
     // //cout << "Step 3" <<endl;
     string output;
     if (!state1->findAgent(agent_name))
@@ -137,47 +123,6 @@ External::check1(const std::vector<ObjectIdx>& args ) {
     }
     //cout << "Step 2" <<endl;
 
-
-
-    // for (std::_List_const_iterator<External::agent> i = agents.begin() ; i!=agents.end();++i)
-    // {
-    //   if (i == agents.begin())
-    //   {
-
-    //   }
-    //   else
-    //   {
-    //     //output.append(i->name);
-    //     //output.append(";id:");
-    //     output.append(i->id);
-    //     output.append(";location:");
-    //     output.append(i->x);
-    //     output.append(",");
-    //     output.append(i->y);
-    //     output.append(";direction:");
-    //     output.append(i->dir);
-    //     output.append(";range:");
-    //     output.append(i->range);
-    //     output.append("|");
-    //   }
-
-    // }
-    // //cout << "Step 4" <<endl;
-
-    // output.erase(output.end()-1,output.end());
-    // output.append(" variables: ");
-
-    // for (std::_List_const_iterator<External::object> i = objects.begin(); i!=objects.end();++i)
-    // {
-    //   output.append(i->id);
-    //   output.append(";value:");
-    //   output.append(i->name);
-    //   output.append(";location:");
-    //   output.append(i->x);
-    //   output.append(",");
-    //   output.append(i->y);
-    //   output.append("|");
-    // }
     // //cout << "Step 5" <<endl;
 
 
@@ -209,7 +154,7 @@ External::check1(const std::vector<ObjectIdx>& args ) {
     //check2(query, &result1);
     //dlclose(libsim);
     //LPT_DEBUG("checking", "This query is " << result1 << "\n");
-    cout << output <<endl;
+    
     if (check_epistemic(output))
     {
       result1=1;
@@ -217,8 +162,15 @@ External::check1(const std::vector<ObjectIdx>& args ) {
     else
     {
       result1=0;
+
     }
-    cout << "result is " << result1<<endl;
+
+    if (camera1_x == -12 && result1==0)
+    {
+              cout << output <<endl;
+      cout << "result is " << result1<<endl;
+    }
+    
     ObjectIdx count = result1;  
     time_counter = time_counter + aptk::time_used() - cur_time;
     return count;

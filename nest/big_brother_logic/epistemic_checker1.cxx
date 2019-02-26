@@ -506,7 +506,7 @@ ProblemState Seeing::getState(ProblemState s)
                     temp_state=result_state;
                     for (auto i:agent_ids)
                     {
-                        Agent t_agt = temp_state.getAgent(i);
+                        Agent t_agt = s.getAgent(i);
                         //if (t_agt!=NULL)
                         {
                             result_state = mergingState(false,result_state,temp_state.getAgentState(t_agt));

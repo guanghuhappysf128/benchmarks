@@ -229,11 +229,6 @@ public:
         this -> agents = agents;
         this -> objects = objects;
     };
-    void clear()
-    {
-        agents.clear();
-        objects.clear();
-    };
     string show()
     {
         string result;

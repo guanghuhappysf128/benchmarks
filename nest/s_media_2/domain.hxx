@@ -76,6 +76,7 @@ bool ProblemState::checkS(Seeing &s)
     //if the next sees is a variable, which mean we want to check whether
     if (s.seeing_ptr->ptr_type == Seeing::VARIABLE&&s.seeing_ptr->seeing_type==Seeing::SV)
     {
+        //cout << "Checking seeing: " << s.seeing_ptr->show() << endl;
         for (auto i:s.agent_ids)
         {
             if (this->findAgent(i))
@@ -114,7 +115,7 @@ bool ProblemState::checkS(Seeing &s)
         if (this->findAgent(i))
         {
             //this need to be a feature that every agent have, and it cannot be location because everyone know others location as assumption
-            if (this->getAgent(i).getV("name")=="NONE")
+            if (this->getAgent(i).getV("exist")=="NONE")
             {
                 //std::cout <<"------------4"<<endl;
                 return false;

@@ -18,7 +18,6 @@
 		(camera1_y) - y
 		(fact ?p - query) - boolean
 		(@check1 ?x - x ?y - y ?dir - r ?q - query) - boolean
-		;(@check1 ?x - x ?y - y ?dir - r ?query - q) - boolean
 
 
 	)
@@ -33,6 +32,7 @@
 		(and
 			(assign (camera1_x) (+ (camera1_x) ?dx))
 			(assign (camera1_y) (+ (camera1_y) ?dy))
+			;(forall (?q - query) (when (= (@check1 (camera1_x) (camera1_y) (camera1_direction) ?q) 1) (assign (fact ?q) 1)))
 		)
 	)
 
@@ -46,6 +46,7 @@
 		:effect
 		(and
 			(assign (camera1_direction) (+ (camera1_direction) ?dr))
+			;(forall (?q - query) (when (= (@check1 (camera1_x) (camera1_y) (camera1_direction) ?q) 1) (assign (fact ?q) 1)))
 		)
 	)
 
