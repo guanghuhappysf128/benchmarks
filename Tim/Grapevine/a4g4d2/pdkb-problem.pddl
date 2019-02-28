@@ -300,8 +300,8 @@
     )
 
     (:goal (and
-        (Ba_Ba_secret_b)
-        (Bb_Bb_secret_c)
+        (Ba_secret_b)
+        (Bb_secret_c)
         (Pa_not_secret_d)
         (Pb_not_secret_a)
     ))

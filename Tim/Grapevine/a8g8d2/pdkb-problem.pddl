@@ -2192,10 +2192,10 @@
     )
 
     (:goal (and
-        (Ba_Ba_secret_b)
-        (Bb_Bb_secret_c)
-        (Bc_Bc_secret_d)
-        (Bd_Bd_secret_a)
+        (Ba_secret_b)
+        (Bb_secret_c)
+        (Bc_secret_d)
+        (Bd_secret_a)
         (Pa_not_secret_d)
         (Pb_not_secret_a)
         (Pc_not_secret_b)

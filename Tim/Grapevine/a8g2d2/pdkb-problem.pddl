@@ -2192,7 +2192,7 @@
     )
 
     (:goal (and
-        (Ba_Ba_secret_b)
+        (Ba_secret_b)
         (Pa_not_secret_d)
     ))
 )
