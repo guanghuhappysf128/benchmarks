@@ -42,11 +42,6 @@ for i in range(len(num)):
 print("Result is "+ str(number))
 
 
-global i1
-i1=1
-global j
-j=1
-
 # for k in range(len(num)):
 # 	print("before"+str(j))
 # 	if j==5:
@@ -57,9 +52,10 @@ j=1
 # 	j=j+1
 # 	print("after"+str(j))
 
-for i in range(1,5):
-	for j in range(1,5):
-		print("\t\t\t;{\"object_info\":{\"id\":\"k"+str(i)+"s"+str(j)+"\",\"value\":\"0\"}}")
+for i in range(1,4):
+  for j in range(1,4):
+    for k in range(1,4):
+      print("\t\t\t;{\"object_info\":{\"id\":\"k"+str(i)+"k"+str(j)+"s"+str(k)+"\",\"value\":\"0\"}}")
 
 
     #   ; {"object_info":{"id":"obj_1","location":"1,1","name":"box1"}}

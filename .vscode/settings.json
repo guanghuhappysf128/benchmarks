@@ -1,3 +1,8 @@
 {
-    "git.showPushSuccessNotification": true
+    "git.showPushSuccessNotification": true,
+    "files.associations": {
+        "iostream": "cpp",
+        "*.ipp": "cpp",
+        "functional": "cpp"
+    }
 }

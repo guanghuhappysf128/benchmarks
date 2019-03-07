@@ -1,16 +1,14 @@
 //
-// Created by ghu1 on 25/11/18.
+// Created by guang on 6/03/19.
 //
 
-#ifndef GRAPEVINE_EPISTEMIC_CHECKER_HXX
-#define GRAPEVINE_EPISTEMIC_CHECKER_HXX
+#ifndef GOSSIP_STATE_EPISTEMIC_CHECKER_HXX
+#define GOSSIP_STATE_EPISTEMIC_CHECKER_HXX
+
 #include <vector>
 #include <string>
-#include <map>
-#include <boost/variant.hpp>
 #include <iostream>
 #include <list>
-
 
 using namespace std;
 
@@ -18,7 +16,7 @@ using namespace std;
 class Agent;
 class Variable;
 class Object;
-class State;
+class ProblemState;
 class Query;
 class Seeing;
 class Knowledge;
@@ -38,6 +36,7 @@ public:
 //    {
 //        return v.sameName(this->name)&&v.sameId(this->id)&&v.sameValue(this->value);
 //    };
+    void setV(string v){this->value = v;};
     bool sameName(string name) {return name == this->name;};
     bool sameValue(string value) {return value == this->value;};
     bool sameId(string id) {return id == this->id;};
@@ -53,6 +52,14 @@ public:
         result += ": ";
         result += this->value;
         result += "]";
+        return result;
+    };
+    string print()
+    {
+        string result;
+        result += this->name;
+        result += ":";
+        result += this->value;
         return result;
     };
     Variable* getPtr(){return this;};
@@ -110,6 +117,19 @@ public:
         result +="\n";
         return result;
     };
+    string print()
+    {
+        string result;
+        result += this->id;
+        result +=";";
+        for (auto i: variables)
+        {
+            result+=i.print();
+            result+=";";
+        }
+        result.pop_back();
+        return result;
+    }
 
 };
 
@@ -121,6 +141,19 @@ private:
 public:
     vector<Variable> variables;
     Agent(string id){this->id=id;};
+    bool changeV(string name, string value)
+    {
+        for (auto i:variables)
+        {
+            if (i.sameName(name))
+            {
+                i.setV(value);
+                return true;
+            }
+
+        }
+        return false;
+    }
     string getV(string variable_name)
     {
         for (auto i:variables)
@@ -168,9 +201,24 @@ public:
     };
     Agent seesAV(Agent &a);
     Object seesOV(Object &o);
+    bool canSeesAV(Agent &a);
+    bool canSeesOV(Object &o);
+    string print()
+    {
+        string result;
+        result += this->id;
+        result +=";";
+        for (auto i: variables)
+        {
+            result+=i.print();
+            result+=";";
+        }
+        result.pop_back();
+        return result;
+    }
 };
 
-class State
+class ProblemState
 {
 private:
     vector<Agent> agents;
@@ -178,10 +226,16 @@ private:
 public:
 
     //constructor
-    State(vector<Agent> agents,vector<Object> objects)
+    ProblemState(vector<Agent> agents,vector<Object> objects)
     {
         this -> agents = agents;
         this -> objects = objects;
+    };
+
+    void clear()
+    {
+        this -> agents.clear();
+        this -> objects.clear();
     };
     string show()
     {
@@ -198,21 +252,63 @@ public:
     };
     vector<Agent>* getAgents(){return &(this -> agents);};
     vector<Object>* getObjects(){return &(this -> objects);};
-    State getAgentState(Agent agt)
+    ProblemState getAgentState(Agent agt);
+    string print()
     {
-        vector<Agent> result_agents;
-        vector<Object> result_objects;
-        for (auto i: this->objects)
+        string result;
+        result+="state:/agents: ";
+        for (auto i: agents)
         {
-            result_objects.push_back(agt.seesOV(i));
+            result+=i.print();
+            result+="|";
         }
-        for (auto i: this->agents)
+        result.pop_back();
+        result.append(" variables: ");
+        for (auto i: objects)
         {
-            result_agents.push_back(agt.seesAV(i));
+            result+=i.print();
+            result+="|";
         }
-        State new_state(result_agents,result_objects);
-        return new_state;
-    };
+        result.pop_back();
+        return result;
+    }
+    bool changeAgentV(string id, string name, string value)
+    {
+        for (auto &i : agents)
+        {
+            if (i.getId()==id)
+            {
+                for(auto &v:i.variables)
+                {
+                    if (v.sameName(name))
+                    {
+                        v.setV(value);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    bool changeObjectV(string id, string name, string value)
+    {
+        for (auto &i : objects)
+        {
+            if (i.getId()==id)
+            {
+                for(auto &v:i.variables)
+                {
+                    if (v.sameName(name))
+                    {
+                        v.setV(value);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
 
 
@@ -253,7 +349,7 @@ public:
         }
         //return NULL;
     };
-    bool compare(State &s);
+    bool compare(ProblemState &s);
     bool checkV(Variable &v);
     bool checkS(Seeing &s);
 };
@@ -281,13 +377,13 @@ public:
         else if (seeing_type_string == "ds") this -> seeing_type = DS;
         else if (seeing_type_string == "cs") this -> seeing_type = CS;
         else if (seeing_type_string == "sv") this -> seeing_type = SV;
-        else assert("seeing type error when init");
+        //else assert("seeing type error when init");
 
         if (ptr_type_str == "seeing") this -> ptr_type = SEEING;
 //        else if (ptr_type_str == "object") this -> ptr_type = OBJECT;
 //        else if (ptr_type_str == "agent") this -> ptr_type = AGENT;
         else if (ptr_type_str == "variable") this -> ptr_type = VARIABLE;
-        else assert("seeing pointer type error when init");
+        //else assert("seeing pointer type error when init");
 
         this -> agent_ids = agent_ids;
         this -> negation = negation;
@@ -313,7 +409,7 @@ public:
             case DS: result.append("distributed sees "); break;
             case CS: result.append("commonly sees "); break;
             case SV: result.append("sees target "); break;
-            default: assert("seeing type error when show");
+                //default: assert("seeing type error when show");
         }
         //cout << "seeing case fine"<<endl;
         switch (ptr_type)
@@ -322,13 +418,13 @@ public:
             case VARIABLE: result.append(variable_ptr->show());break;
 //            case OBJECT: result.append(object_ptr->second.show()); break;
 //            case AGENT: result.append(agent_ptr->second.show()); break;
-            default: assert("seeing pointer type error when show");
+                //default: assert("seeing pointer type error when show");
         }
         //cout << "seeing next fine"<<endl;
         return result;
     };
 
-    State getState(State s);
+    ProblemState getState(ProblemState s);
 };
 
 class Knowledge
@@ -353,14 +449,14 @@ public:
         if (knowledge_type_str == "ek") this -> knowledge_type = EK;
         else if (knowledge_type_str == "ck") this -> knowledge_type = CK;
         else if (knowledge_type_str == "dk") this -> knowledge_type = DK;
-        else assert("knowledge type error when init");
+        //else assert("knowledge type error when init");
 
         if (ptr_type_str == "knowledge") this -> ptr_type = KNOWLEDGE;
         else if (ptr_type_str == "seeing") this -> ptr_type = SEEING;
 //        else if (ptr_type_str == "agent") this -> ptr_type = AGENT;
 //        else if (ptr_type_str == "object") this -> ptr_type = OBJECT;
         else if (ptr_type_str == "variable") this -> ptr_type = VARIABLE;
-        else assert("knowledge pointer type error when init");
+        //else assert("knowledge pointer type error when init");
 
         this -> negation = negation;
         this -> agent_ids = agent_ids;
@@ -385,7 +481,7 @@ public:
             case EK: result.append("everyone knows "); break;
             case CK: result.append("commonly knows "); break;
             case DK: result.append("distributed knows "); break;
-            default: assert("knowledge type error when show");
+                //default: assert("knowledge type error when show");
         }
         //cout << "kwnoing type fine"<<endl;
         //cout << result<<endl;
@@ -396,7 +492,7 @@ public:
 //            case AGENT: result.append(agent_ptr->second.show()); break;
             case VARIABLE: result.append(variable_ptr->show());break;
             case KNOWLEDGE: result.append(knowledge_ptr->show()); break;
-            default: assert("knowledge pointer type error when init");
+                //default: assert("knowledge pointer type error when init");
         }
         //cout << "kwnoing next fine"<<endl;
         //cout << result<<endl;
@@ -437,7 +533,7 @@ public:
             case SEEING:
                 result.append("This is a seeing query:\n\t");
                 result.append(seeing_ptr->show()); break;
-            default: assert("query type error when show");
+                //default: assert("query type error when show");
         }
         return result;
     };
@@ -447,17 +543,15 @@ public:
 
 
 
-bool check(string str);
+bool check_epistemic(string str);
 template <typename T> T translate(string str);
 Seeing* transS(vector<string> details);
 Knowledge* transK(vector<string> details);
 Query* transQ(string query_str);
 
 
-State unionState(State s1, State s2);
-State intersectState(State s1, State s2);
-
-State generateState();
+ProblemState unionState(ProblemState s1, ProblemState s2);
+ProblemState intersectState(ProblemState s1, ProblemState s2);
 
 
 
@@ -465,14 +559,8 @@ State generateState();
 vector<string> split(string str, char ch);
 void print_list(vector<string> list);
 
-
-bool sees(string agent_l,string target_l);
-//bool sees(string agent_l,string agent_d,string agent_r,string target_l);
-
+bool sees(string agent_l,string agent_d,string agent_r,string target_l);
+//bool sees(string agent_l,string target_l);
 
 
-
-
-
-
-#endif //GRAPEVINE_EPISTEMIC_CHECKER_HXX
+#endif //GOSSIP_STATE_EPISTEMIC_CHECKER_HXX

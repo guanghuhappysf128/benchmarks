@@ -2,18 +2,16 @@
 	(:requirements :strips :typing :equality :adl)
 
 	(:types 
-		agent state boolean - int
+		agent state boolean action_sequence - int
 		query
 		
 	)
 
 	(:predicates
-		(start)
 		; (knows ?a1 - agent ?a2 - agent)
 		; (knows2 ?a1 - agent ?a2 - agent ?a3 - agent)
 		; (calling2 ?a1 - agent ?a2 - agent)
 		; (calling_allow)
-		;(start)
 		;; this is not working, so you need to write them separately
 
 		;; post as action, and using external function to represent following relations
@@ -27,20 +25,54 @@
 		(fact ?q - query) - boolean
 		;(check ?l - encoding ?q - query) - boolean
 		;(check ?l - encode ?s - agent ?q - query) - boolean
-		(@update ?a1 - agent ?a2 - agent ?c - state) - state
-		(current_state) - state
-		(@check ?c - state ?q - query) - boolean
+		;(@update ?a1 - agent ?a2 - agent ?c - state) - state
+		;(current_state) - state
+		(@check ?ab - action_sequence ?ac - action_sequence ?bc - action_sequence ?q - query) - boolean
+		(calling_a_b) - action_sequence 
+		(calling_a_c) - action_sequence 
+		(calling_b_c) - action_sequence
+		
 	)
 
-	(:action calling
-		:parameters(?a1 - agent ?a2 - agent)
+	(:action calls_a_b
+		:parameters()
 		:precondition
 		(and
 			
 		)
 		:effect
 		(and
-			(assign (current_state) (@update ?a1 ?a2 (current_state)))
+			(assign (calling_a_b) (update 1 (calling_a_b)))
+			(assign (calling_a_c) (update 0 (calling_a_c)))
+			(assign (calling_b_c) (update 0 (calling_b_c)))
+		)
+	)
+
+		(:action calls_a_c
+		:parameters()
+		:precondition
+		(and
+			
+		)
+		:effect
+		(and
+			(assign (calling_a_b) (update 0 (calling_a_b)))
+			(assign (calling_a_c) (update 1 (calling_a_c)))
+			(assign (calling_b_c) (update 0 (calling_b_c)))
+		)
+	)
+
+	(:action calls_b_c
+		:parameters()
+		:precondition
+		(and
+			
+		)
+		:effect
+		(and
+			(assign (calling_a_b) (update 0 (calling_a_b)))
+			(assign (calling_a_c) (update 0 (calling_a_c)))
+			(assign (calling_b_c) (update 1 (calling_b_c)))
 		)
 	)
 
