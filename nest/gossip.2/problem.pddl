@@ -87,7 +87,7 @@
 
     (:bounds
         (agent - int[1..3])
-        (state - int[0..43421772])
+        (state - int[0..134217727])
         (boolean - int[0..1])
         )
 )

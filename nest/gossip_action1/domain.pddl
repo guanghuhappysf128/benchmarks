@@ -27,11 +27,12 @@
 		;(check ?l - encode ?s - agent ?q - query) - boolean
 		;(@update ?a1 - agent ?a2 - agent ?c - state) - state
 		;(current_state) - state
-		(@check ?ab - action_sequence ?ac - action_sequence ?bc - action_sequence ?q - query) - boolean
+		;(@check ?ab - action_sequence ?ac - action_sequence ?bc - action_sequence ?q - query) - boolean
 		(calling_a_b) - action_sequence 
 		(calling_a_c) - action_sequence 
 		(calling_b_c) - action_sequence
-		
+		(@update ?b - boolean ?as - action_sequence) - action_sequence
+		(@check ?ab - action_sequence ?ac - action_sequence ?bc - action_sequence ?q - query) - boolean
 	)
 
 	(:action calls_a_b
