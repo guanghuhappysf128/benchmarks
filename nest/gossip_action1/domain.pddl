@@ -43,9 +43,9 @@
 		)
 		:effect
 		(and
-			(assign (calling_a_b) (update 1 (calling_a_b)))
-			(assign (calling_a_c) (update 0 (calling_a_c)))
-			(assign (calling_b_c) (update 0 (calling_b_c)))
+			(assign (calling_a_b) (@update 1 (calling_a_b)))
+			(assign (calling_a_c) (@update 0 (calling_a_c)))
+			(assign (calling_b_c) (@update 0 (calling_b_c)))
 		)
 	)
 
@@ -57,9 +57,9 @@
 		)
 		:effect
 		(and
-			(assign (calling_a_b) (update 0 (calling_a_b)))
-			(assign (calling_a_c) (update 1 (calling_a_c)))
-			(assign (calling_b_c) (update 0 (calling_b_c)))
+			(assign (calling_a_b) (@update 0 (calling_a_b)))
+			(assign (calling_a_c) (@update 1 (calling_a_c)))
+			(assign (calling_b_c) (@update 0 (calling_b_c)))
 		)
 	)
 
@@ -71,9 +71,9 @@
 		)
 		:effect
 		(and
-			(assign (calling_a_b) (update 0 (calling_a_b)))
-			(assign (calling_a_c) (update 0 (calling_a_c)))
-			(assign (calling_b_c) (update 1 (calling_b_c)))
+			(assign (calling_a_b) (@update 0 (calling_a_b)))
+			(assign (calling_a_c) (@update 0 (calling_a_c)))
+			(assign (calling_b_c) (@update 1 (calling_b_c)))
 		)
 	)
 

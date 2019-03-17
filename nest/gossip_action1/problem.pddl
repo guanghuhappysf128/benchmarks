@@ -8,11 +8,6 @@
             
 
     (:init
-    (start)
-    (end)
-    (agent1 1)
-		(agent2 2)
-		(agent3 3)
         ;(calling_allow)
         ; initial states and only agent a is movable
         ;(= (current_state) 67117057)
@@ -62,6 +57,10 @@
 
         ;(knows a1 a1)
 
+    (= (calling_a_b) 0) 
+		(= (calling_a_c) 0)
+		(= (calling_b_c) 0)
+
 
 
 
@@ -71,7 +70,8 @@
 
     (:goal
         (and
-        (goal)
+        (= (calling_a_b) 1)
+        (= (calling_b_c) 2)
         ;(= (current_state) 52257)
         ;(= (fact p1) 1)
         ;(= (@check (current_state) p1) 1)

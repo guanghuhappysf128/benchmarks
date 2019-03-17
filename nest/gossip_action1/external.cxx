@@ -63,65 +63,25 @@ void External::registerComponents() const {
 ObjectIdx
 External::update(const std::vector<ObjectIdx>& args )  {
     cout << "------------------updating" << endl;
-    ObjectIdx agent1_input = args[0];
-    ObjectIdx agent2_input = args[1];
-    ObjectIdx state_input = args[2];
+    ObjectIdx happened_input = args[0];
+    ObjectIdx action_sequence_input = args[1];
 
-    int agent1 = agent1_input;
-    int agent2 = agent2_input;
-    int state = state_input;
-    int state_temp = state;
+    // update action sequence
+    int action_sequence = action_sequence_input;
+    int happened = happened_input;
+    int action_sequence_result = 0;
 
-    // cout << "This is agent1: " << agent1 << endl;
-    // cout << "This is agent2: " << agent2  << endl;
-    // cout << "This is state: " << state  << endl;
-
-    int state_array[POWER];
-
-    for (int i=pow(AGENT_NUMBER,DEPTH)-1;i>=0;i--)
+    if (happened == 1)
     {
-        if(state_temp!=0)
-        {
-            state_array[i] = state_temp % 2;
-            state_temp = state_temp /2;
-        }
-        else
-        {
-            state_array[i] = 0;
-        }
+        action_sequence_result = 2* action_sequence + 1;
     }
-    // cout << "This is the result string: ";
-    // for (auto i : state_array)
-    // {
-    //     cout << i;
-    // }
-    // cout << endl;
-
-    for (int i = 0; i<pow(AGENT_NUMBER,(DEPTH-1)) ;i++)
+    else
     {
-        if (state_array[i+(agent1-1)*AGENT_NUMBER]==1) state_array[i+(agent2-1)*AGENT_NUMBER] =1;
-        if (state_array[i+(agent2-1)*AGENT_NUMBER]==1) state_array[i+(agent1-1)*AGENT_NUMBER] =1;
+        action_sequence_result = 2*action_sequence;
     }
 
-    // cout << "Updated array: ";
-    // for (auto i : state_array)
-    // {
-    //     cout << i;
-    // }
-    // cout << endl;
-    //translate back
-
-    int base =1;
-    int result = 0;
-    for (int i=pow(AGENT_NUMBER,DEPTH)-1;i>=0;i--)
-    {
-        if (state_array[i]==1)
-        {
-            result = result + base;
-        }
-        base = base * 2;
-    }
-    ObjectIdx count = result;
+    cout << "This is result after update "<< action_sequence_result << endl;
+    ObjectIdx count = action_sequence_result;
     return count;
 }
 
