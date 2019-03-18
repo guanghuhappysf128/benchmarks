@@ -7,6 +7,7 @@
 #include <sstream>
 #include <iostream>
 #include <map>
+#include <algorithm>
 
 #include <string>
 #include <list>
@@ -22,6 +23,7 @@
 #define AGENT_NUMBER 3
 #define POWER 27
 #define DEPTH 3
+#define ACTION_NUMBER 3
 
 namespace boost_fs = boost::filesystem;
 
@@ -105,53 +107,190 @@ ObjectIdx
 External::check(const std::vector<ObjectIdx>& args )  {
     cout << "------------------checking" << endl;
 
-    ObjectIdx state_input = args[0];
-    ObjectIdx query_input = args[1];
+    ObjectIdx a1_input = args[0];
+    ObjectIdx a2_input = args[1];
+    ObjectIdx a3_input = args[2];
+    ObjectIdx query_input = args[3];
 
-    int state = state_input;
-    int state_temp = state;
+    ProblemState state_temp = *state1;
+    int action_sequences[ACTION_NUMBER]={a1_input,a2_input,a3_input};
     int query_id_int = query_input;
-
-    //cout << "This is state: " << state  << endl;
-    //cout << "This is queryid: " << query_input  << endl;
     string query_id_str = pddl_objects.find(query_id_int)->second;
 
-
-
-    
-
-    int state_array[POWER];
-
-    for (int i=pow(AGENT_NUMBER,DEPTH)-1;i>=0;i--)
+    string query_string = queries.find(query_id_str)->second;
+    vector<string> query_list = split(query_string,'|');
+    print_list(query_list);
+    int max_depth =0;
+    vector<vector<string>> query_detail_list;
+    for (auto i:query_list)
     {
-        if(state_temp!=0)
+        vector<string> temp = split(i,' ');
+        query_detail_list.push_back(temp);
+        max_depth = max(max_depth,(int)(temp.size()-1)/2);
+    }
+
+//    cout << "The max depth is " << max_depth << endl;
+
+ //   cout << "Generate actions base on action sequence" << endl;
+    vector<int> all_actions_list[ACTION_NUMBER];
+    bool flag=true;
+    while (flag)
+    {
+        for (int i=0;i<ACTION_NUMBER;i++)
         {
-            state_array[i] = state_temp % 2;
-            state_temp = state_temp /2;
+            all_actions_list[i].push_back(action_sequences[i]%2);
+            action_sequences[i] = action_sequences[i]/2;
         }
-        else
+        flag = false;
+        for (int i =0 ; i< ACTION_NUMBER;i++)
         {
-            state_array[i] = 0;
+            if (action_sequences[i]!=0)
+            {
+                flag=true;
+            }
+        }
+
+    }
+    for (auto i: all_actions_list)
+    {
+        for (auto j: i)
+        {
+            cout <<j<< ", ";
+        }
+        cout << endl;
+    }
+
+    vector<int> action_sequence_num;
+    while (all_actions_list[0].size()!=0) {
+
+        for (int j = 0; j < ACTION_NUMBER; j++) {
+            if (all_actions_list[j].back() == 1) {
+                action_sequence_num.push_back(j);
+            }
+            //cout << "back is " << all_actions_list[j].back() << endl;
+            all_actions_list[j].pop_back();
         }
     }
-    // ObjectIdx room_id = args[0];
-    // ObjectIdx query_id = args[1];
+    //cout << "szie is " <<action_sequence_num.size()<<endl;
 
-    int agent_temp[DEPTH]={1,1};
-    for (auto i: state_array)
+    cout << "Result is ";
+    for (auto i: action_sequence_num)
     {
-        if (agent_temp[1]==AGENT_NUMBER+1)
-        {
-            agent_temp[0]++;
-            agent_temp[1]=1;
-        }
+        cout << i << ", ";
+    }
+    cout << endl;
 
-        if(state1->changeObjectV("k"+to_string(agent_temp[0])+"s"+to_string(agent_temp[1]),"value",to_string(i)))
+    //updating state based on actions and queries
+    for (auto action_num:action_sequence_num)
+    {
+        cout << "This is action " << action_num << endl;
+        cout << "STATE1 before update: " << state1->print() << endl;
+        char a1;
+        char a2;
+        if (action_num == 0)
         {
-            //cout << "changed" << endl;
+            a1 = '1';
+            a2 = '2';
         }
+        else if (action_num == 1)
+        {
+            a1 = '1';
+            a2 = '3';
+        }
+        else if (action_num == 2)
+        {
+            a1 ='2';
+            a2 = '3';
+        } else{
+            cout << "agent number wrong" << endl;
+            return 1;
+        }
+        for (auto query_detail : query_detail_list)
+        {
+            for (int depth = 0; depth < (query_detail.size() - 1) / 2;depth++)
+            {
+                vector<Object> temp_objects;
+                for (auto object: *state1->getObjects()) {
+                    auto temp_query_detail = query_detail;
+                    int temp_depth = depth;
+                    string obj_name = object.getId();
+                    string temp_obj_name = "";
 
-        agent_temp[1]++;
+                    if (obj_name.size() > (depth+2) * 2) {
+                        continue;
+                    }
+                    cout << depth << endl;
+                    cout << "Object name is " << obj_name << endl;
+                    bool relative = true;
+                    char obj_id = temp_query_detail.back()[1];
+                    cout << "Object id is " << obj_id << endl;
+                    if (obj_id != obj_name.back()) {
+                        cout << "false becasue of obj name" << endl;
+                        relative = false;
+                    } else {
+                        temp_obj_name.insert(temp_obj_name.begin(), obj_id);
+                        temp_obj_name.insert(temp_obj_name.begin(), 's');
+                        obj_name.pop_back();
+                        obj_name.pop_back();
+                        cout << "String is " << temp_query_detail.back() << endl;
+                        cout << "this is object is " << obj_id << endl;
+                        temp_query_detail.pop_back();
+                        temp_depth--;
+                        while (temp_depth >= 0) {
+                            temp_depth--;
+                            if (obj_name.back() != temp_query_detail.back()[0]) {
+                                relative = false;
+                                cout << "False here" << endl;
+                                break;
+                            }
+                            temp_obj_name.insert(temp_obj_name.begin(), temp_query_detail.back()[0]);
+                            temp_obj_name.insert(temp_obj_name.begin(), 'k');
+                            cout << "This is " << temp_query_detail.back() << endl;
+                            temp_query_detail.pop_back();
+                            temp_query_detail.pop_back();
+                            obj_name.pop_back();
+                            obj_name.pop_back();
+                        }
+                    }
+                    if (obj_name.back() != a1 && obj_name.back() != a2 && obj_name.size()!=0) {
+                        cout << "False becasue of agent" << endl;
+                        relative = false;
+                    }
+                    if (relative) {
+                        cout << "----------" << object.getId() << " should be updated" << endl;
+                        cout << "----------" << temp_obj_name << " is the base" << endl;
+                        string name1 = "k";
+                        name1.push_back(a1);
+                        name1.append(temp_obj_name);
+                        if (!state1->findObject(name1)) {
+                            Object temp(name1);
+                            temp.addVariable("value", "1");
+                            temp_objects.push_back(temp);
+                        }
+                        string name2 = "k";
+                        name2.push_back(a2);
+                        name2.append(temp_obj_name);
+                        if (!state1->findObject(name2)&&name1!=name2) {
+                            Object temp(name2);
+                            temp.addVariable("value", "1");
+                            temp_objects.push_back(temp);
+                        }
+                    }
+                }
+                for (auto i : temp_objects)
+                {
+                    if (!state1->findObject(i.getId()))
+                    {
+                        state1->getObjects()->push_back(i);
+                        cout << "Adding object " << i.print()<< endl;
+                    }
+
+                }
+
+
+            }
+        }
+        cout << "STATE1 after update: " << state1->print() << endl;
     }
 
 
@@ -172,6 +311,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
     }
     
     ObjectIdx count = result1;
+    *state1=state_temp;
     return count;
 }
 

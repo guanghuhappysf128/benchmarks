@@ -14,33 +14,13 @@
       ; {"agent_info":{"id":"1","location":"0,0","direction":"135","range":"90","name":"alice"}}
       ; {"agent_info":{"id":"2","location":"15,15","direction":"-135","range":"90","name":"bob"}}
       ; {"agent_info":{"id":"3","location":"0,0","direction":"135","range":"90","name":"alice"}}
+      ;{"object_info":{"id":"k1s1","value":"1"}}
+      ;{"object_info":{"id":"k2s2","value":"1"}}
+      ;{"object_info":{"id":"k3s3","value":"1"}}
       ;{"object_info":{"id":"k1k1s1","value":"1"}}
-      ;{"object_info":{"id":"k1k1s2","value":"0"}}
-      ;{"object_info":{"id":"k1k1s3","value":"0"}}
-      ;{"object_info":{"id":"k1k2s1","value":"0"}}
-      ;{"object_info":{"id":"k1k2s2","value":"0"}}
-      ;{"object_info":{"id":"k1k2s3","value":"0"}}
-      ;{"object_info":{"id":"k1k3s1","value":"0"}}
-      ;{"object_info":{"id":"k1k3s2","value":"0"}}
-      ;{"object_info":{"id":"k1k3s3","value":"0"}}
-      ;{"object_info":{"id":"k2k1s1","value":"0"}}
-      ;{"object_info":{"id":"k2k1s2","value":"0"}}
-      ;{"object_info":{"id":"k2k1s3","value":"0"}}
-      ;{"object_info":{"id":"k2k2s1","value":"0"}}
       ;{"object_info":{"id":"k2k2s2","value":"1"}}
-      ;{"object_info":{"id":"k2k2s3","value":"0"}}
-      ;{"object_info":{"id":"k2k3s1","value":"0"}}
-      ;{"object_info":{"id":"k2k3s2","value":"0"}}
-      ;{"object_info":{"id":"k2k3s3","value":"0"}}
-      ;{"object_info":{"id":"k3k1s1","value":"0"}}
-      ;{"object_info":{"id":"k3k1s2","value":"0"}}
-      ;{"object_info":{"id":"k3k1s3","value":"0"}}
-      ;{"object_info":{"id":"k3k2s1","value":"0"}}
-      ;{"object_info":{"id":"k3k2s2","value":"0"}}
-      ;{"object_info":{"id":"k3k2s3","value":"0"}}
-      ;{"object_info":{"id":"k3k3s1","value":"0"}}
-      ;{"object_info":{"id":"k3k3s2","value":"0"}}
       ;{"object_info":{"id":"k3k3s3","value":"1"}}
+
 
 
         (= (fact p1) 0)
@@ -70,18 +50,18 @@
 
     (:goal
         (and
-        (= (calling_a_b) 1)
-        (= (calling_b_c) 2)
+        ; (= (calling_a_b) 1)
+        ; (= (calling_b_c) 2)
         ;(= (current_state) 52257)
         ;(= (fact p1) 1)
-        ;(= (@check (current_state) p1) 1)
+        (= (@check (calling_a_b) (calling_a_c) (calling_b_c) p1) 1)
         ; when agt_a shouts, whether others can know what he knows
-        ; {"query_info":{"id":"p1","query":"ds 1 ds 1 s1:value:1"}}
+        ; {"query_info":{"id":"p1","query":"ds 3 ds 2 s1:value:1"}}
         ; {"query_info":{"id":"p2","query":"dk 2 obj_1:value:3"}}
         ; {"query_info":{"id":"p3","query":"dk 3 obj_1:value:4"}}
         ; {"query_info":{"id":"p4","query":"dk 4 obj_1:value:1"}}
 
-        ; {"query_info":{"id":"n1","query":"dk 2 obj_2:value:4"}}
+        ; {"query_info":{"id":"n1","query":"dk 3 dk 2 obj_2:value:4"}}
         ; {"query_info":{"id":"n2","query":"dk 2 obj_1:value:1"}}
         ; {"query_info":{"id":"n3","query":"dk 3 obj_1:value:2"}}
         ; {"query_info":{"id":"n4","query":"dk 4 obj_1:value:3"}}
