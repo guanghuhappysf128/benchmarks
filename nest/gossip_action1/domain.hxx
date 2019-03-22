@@ -76,6 +76,11 @@ Object Agent::seesOV(Object &o)
 bool Agent::canSeesOV(Object &o)
 {
     //cout << o.getId().at(1) << " : " << this->getId();
+    if (o.getId().size()<2)
+    {
+        //cout << o.show() << "'s size is smaller than 2, return false" << endl;
+        return false;
+    }
     string temp(1,o.getId().at(1));
     return (temp==this->getId());
 };

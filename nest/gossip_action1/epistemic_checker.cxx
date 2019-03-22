@@ -188,23 +188,23 @@ bool check_epistemic(string str)
                 cout << "seeing type is" << temp_i->seeing_type << "is smae as " << Seeing::SV << endl;
                 cout << "localstate is: "<<temp_s.show()<<endl;
             }
-            temp_s = i->getState(temp_s);
-            cout << "new tmep state";
-            cout << temp_s.show();
+            temp_s = temp_i->getState(temp_s);
+            //cout << "new tmep state";
+            //cout << temp_s.show();
             temp_i = temp_i->seeing_ptr;
-            cout << "new tmep seeing"<<endl;
-            cout << temp_i->show()<<endl;
+            //cout << "new tmep seeing"<<endl;
+            //cout << temp_i->show()<<endl;
         }
         if(temp_i->ptr_type==Seeing::VARIABLE)
         {
-            cout << "--------------------------1111"<<endl;
+            //cout << "--------------------------1111"<<endl;
             temp=temp_s.checkV(*temp_i->variable_ptr);
         }
         if(temp_i->seeing_ptr->ptr_type==Seeing::VARIABLE)
         {
-            cout << "--------------------------22222"<<endl;
+            //cout << "--------------------------22222"<<endl;
             temp_s = temp_i->getState(temp_s);
-            cout << "get before check V" << endl;
+            //cout << "get before check V" << endl;
             temp=temp_s.checkV(*temp_i->seeing_ptr->variable_ptr);
         }
 

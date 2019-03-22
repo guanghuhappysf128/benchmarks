@@ -64,7 +64,7 @@ void External::registerComponents() const {
 
 ObjectIdx
 External::update(const std::vector<ObjectIdx>& args )  {
-    cout << "------------------updating" << endl;
+    //cout << "------------------updating" << endl;
     ObjectIdx happened_input = args[0];
     ObjectIdx action_sequence_input = args[1];
 
@@ -82,7 +82,7 @@ External::update(const std::vector<ObjectIdx>& args )  {
         action_sequence_result = 2*action_sequence;
     }
 
-    cout << "This is result after update "<< action_sequence_result << endl;
+    //cout << "This is result after update "<< action_sequence_result << endl;
     ObjectIdx count = action_sequence_result;
     return count;
 }
@@ -105,7 +105,7 @@ External::translate(const std::vector<ObjectIdx>& args )  {
 
 ObjectIdx
 External::check(const std::vector<ObjectIdx>& args )  {
-    cout << "------------------checking" << endl;
+    //cout << "------------------checking" << endl;
 
     ObjectIdx a1_input = args[0];
     ObjectIdx a2_input = args[1];
@@ -119,7 +119,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
 
     string query_string = queries.find(query_id_str)->second;
     vector<string> query_list = split(query_string,'|');
-    print_list(query_list);
+    //print_list(query_list);
     int max_depth =0;
     vector<vector<string>> query_detail_list;
     for (auto i:query_list)
@@ -151,14 +151,14 @@ External::check(const std::vector<ObjectIdx>& args )  {
         }
 
     }
-    for (auto i: all_actions_list)
-    {
-        for (auto j: i)
-        {
-            cout <<j<< ", ";
-        }
-        cout << endl;
-    }
+    // for (auto i: all_actions_list)
+    // {
+    //     for (auto j: i)
+    //     {
+    //         cout <<j<< ", ";
+    //     }
+    //     cout << endl;
+    // }
 
     vector<int> action_sequence_num;
     while (all_actions_list[0].size()!=0) {
@@ -173,18 +173,18 @@ External::check(const std::vector<ObjectIdx>& args )  {
     }
     //cout << "szie is " <<action_sequence_num.size()<<endl;
 
-    cout << "Result is ";
-    for (auto i: action_sequence_num)
-    {
-        cout << i << ", ";
-    }
-    cout << endl;
+    // cout << "Result is ";
+    // for (auto i: action_sequence_num)
+    // {
+    //     cout << i << ", ";
+    // }
+    // cout << endl;
 
     //updating state based on actions and queries
     for (auto action_num:action_sequence_num)
     {
-        cout << "This is action " << action_num << endl;
-        cout << "STATE1 before update: " << state1->print() << endl;
+        // cout << "This is action " << action_num << endl;
+        // cout << "STATE1 before update: " << state1->print() << endl;
         char a1;
         char a2;
         if (action_num == 0)
@@ -202,7 +202,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
             a1 ='2';
             a2 = '3';
         } else{
-            cout << "agent number wrong" << endl;
+            //cout << "agent number wrong" << endl;
             return 1;
         }
         for (auto query_detail : query_detail_list)
@@ -219,33 +219,33 @@ External::check(const std::vector<ObjectIdx>& args )  {
                     if (obj_name.size() > (depth+2) * 2) {
                         continue;
                     }
-                    cout << depth << endl;
-                    cout << "Object name is " << obj_name << endl;
+                    // cout << depth << endl;
+                    // cout << "Object name is " << obj_name << endl;
                     bool relative = true;
                     char obj_id = temp_query_detail.back()[1];
-                    cout << "Object id is " << obj_id << endl;
+                    // cout << "Object id is " << obj_id << endl;
                     if (obj_id != obj_name.back()) {
-                        cout << "false becasue of obj name" << endl;
+                        // cout << "false becasue of obj name" << endl;
                         relative = false;
                     } else {
                         temp_obj_name.insert(temp_obj_name.begin(), obj_id);
                         temp_obj_name.insert(temp_obj_name.begin(), 's');
                         obj_name.pop_back();
                         obj_name.pop_back();
-                        cout << "String is " << temp_query_detail.back() << endl;
-                        cout << "this is object is " << obj_id << endl;
+                        // cout << "String is " << temp_query_detail.back() << endl;
+                        // cout << "this is object is " << obj_id << endl;
                         temp_query_detail.pop_back();
                         temp_depth--;
                         while (temp_depth >= 0) {
                             temp_depth--;
                             if (obj_name.back() != temp_query_detail.back()[0]) {
                                 relative = false;
-                                cout << "False here" << endl;
+                                // cout << "False here" << endl;
                                 break;
                             }
                             temp_obj_name.insert(temp_obj_name.begin(), temp_query_detail.back()[0]);
                             temp_obj_name.insert(temp_obj_name.begin(), 'k');
-                            cout << "This is " << temp_query_detail.back() << endl;
+                            // cout << "This is " << temp_query_detail.back() << endl;
                             temp_query_detail.pop_back();
                             temp_query_detail.pop_back();
                             obj_name.pop_back();
@@ -253,12 +253,12 @@ External::check(const std::vector<ObjectIdx>& args )  {
                         }
                     }
                     if (obj_name.back() != a1 && obj_name.back() != a2 && obj_name.size()!=0) {
-                        cout << "False becasue of agent" << endl;
+                        // cout << "False becasue of agent" << endl;
                         relative = false;
                     }
                     if (relative) {
-                        cout << "----------" << object.getId() << " should be updated" << endl;
-                        cout << "----------" << temp_obj_name << " is the base" << endl;
+                        // cout << "----------" << object.getId() << " should be updated" << endl;
+                        // cout << "----------" << temp_obj_name << " is the base" << endl;
                         string name1 = "k";
                         name1.push_back(a1);
                         name1.append(temp_obj_name);
@@ -282,7 +282,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
                     if (!state1->findObject(i.getId()))
                     {
                         state1->getObjects()->push_back(i);
-                        cout << "Adding object " << i.print()<< endl;
+                        // cout << "Adding object " << i.print()<< endl;
                     }
 
                 }
@@ -290,7 +290,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
 
             }
         }
-        cout << "STATE1 after update: " << state1->print() << endl;
+        // cout << "STATE1 after update: " << state1->print() << endl;
     }
 
 
@@ -299,7 +299,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
     //cout << "Step 3" <<endl;
     output.append("/query:/");
     output.append(queries.find(query_id_str)->second);
-    cout << output << endl;
+    // cout << output << endl;
     int result1=0;
     if (check_epistemic(output))
     {
