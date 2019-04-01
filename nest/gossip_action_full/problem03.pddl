@@ -26,15 +26,7 @@
       ;{"object_info":{"id":"k1k1k1k1s1","value":"1"}}
       ;{"object_info":{"id":"k2k2k2k2s2","value":"1"}}
       ;{"object_info":{"id":"k3k3k3k3s3","value":"1"}}
-      ;{"object_info":{"id":"k1k1k1k1k1s1","value":"1"}}
-      ;{"object_info":{"id":"k2k2k2k2k2s2","value":"1"}}
-      ;{"object_info":{"id":"k3k3k3k3k3s3","value":"1"}}
-      ;{"object_info":{"id":"k1k1k1k1k1k1s1","value":"1"}}
-      ;{"object_info":{"id":"k2k2k2k2k2k2s2","value":"1"}}
-      ;{"object_info":{"id":"k3k3k3k3k3k3s3","value":"1"}}
-      ;{"object_info":{"id":"k1k1k1k1k1k1k1s1","value":"1"}}
-      ;{"object_info":{"id":"k2k2k2k2k2k2k2s2","value":"1"}}
-      ;{"object_info":{"id":"k3k3k3k3k3k3k3s3","value":"1"}}
+
 
         (= (fact p1) 0)
         ; (= (fact n5) 0)
@@ -69,7 +61,7 @@
         ;(= (fact p1) 1)
         (= (@check (calling_a_b) (calling_a_c) (calling_b_c) p1) 1)
         ; when agt_a shouts, whether others can know what he knows
-        ; {"query_info":{"id":"p1","query":"ds 2 ds 1 ds 3 ds 2 ds 1 ds 3 ds 2 s1:value:1"}}
+        ; {"query_info":{"id":"p1","query":"ds 2 ds 1 ds 3 ds 2 s1:value:1"}}
         ; {"query_info":{"id":"p2","query":"dk 2 obj_1:value:3"}}
         ; {"query_info":{"id":"p3","query":"dk 3 obj_1:value:4"}}
         ; {"query_info":{"id":"p4","query":"dk 4 obj_1:value:1"}}
