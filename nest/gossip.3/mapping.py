@@ -24,22 +24,22 @@ import sys
 # 		for k in range (a):
 # 			print("\t\t\t(knows2 "+str(i+1)+" "+str(j+1)+" "+str(k+1)+")")
 
-# num = raw_input("Entering the binary number:")
-# print("The length is "+str(len(num)))
+num = raw_input("Entering the binary number:")
+print("The length is "+str(len(num)))
 
-# base = 1
-# number = 0
+base = 1
+number = 0
 
-# for i in range(len(num)):
-# 	print("The i is "+str(-i-1)+"the number is "+num[i])
-# 	if (num[-i-1]=='0'):
-# 		print("0")
-# 	else:
-# 		print("1")
-# 		number = number + base
-# 	base = base *2
+for i in range(len(num)):
+	print("The i is "+str(-i-1)+"the number is "+num[i])
+	if (num[-i-1]=='0'):
+		print("0")
+	else:
+		print("1")
+		number = number + base
+	base = base *2
 
-# print("Result is "+ str(number))
+print("Result is "+ str(number))
 
 
 # for k in range(len(num)):
@@ -51,23 +51,11 @@ import sys
 # 	print("\t\t\t;{\"object_info\":{\"id\":\"k"+str(i1)+"s"+str(j)+"\",\"value\":\"0\"}}")
 # 	j=j+1
 # 	print("after"+str(j))
-t=0
+
 for i in range(1,4):
   for j in range(1,4):
     for k in range(1,4):
-      for m in range(1,4):
-        for n in range(1,4):
-          t=t+1
-          print("\t\t\t;{\"query_info\":{\"id\":\"p"+str(t)+"\",\"query\":\"ds "+str(i)+" ds "+str(j)+" ds "+str(k)+" ds "+str(m)+" ds "+str(m)+" s"+str(i)+":value:1\"}}")
-          #print("\t\t\t;{\"object_info\":{\"id\":\"k"+str(i)+"k"+str(j)+"s"+str(k)+"\",\"value\":\"0\"}}")
-s=""
-for i in range(1,t+1):
-  s = s+"p"+str(i)+" "
-  print("(= (@check (calling_a_b) (calling_a_c) (calling_b_c) p"+str(i)+") 1)")
-print(s)
-
-
-
+      print("\t\t\t;{\"object_info\":{\"id\":\"k"+str(i)+"k"+str(j)+"s"+str(k)+"\",\"value\":\"0\"}}")
 
 
     #   ; {"object_info":{"id":"obj_1","location":"1,1","name":"box1"}}

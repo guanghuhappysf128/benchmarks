@@ -33,20 +33,22 @@ using namespace std;
 
 External::External( const ProblemInfo& info, const std::string& data_dir )
 {
-    // float cur_time = aptk::time_used();
+    float cur_time = aptk::time_used();
     initial();
-    // initial_time = aptk::time_used()-cur_time;
-    // m_callCounter = 0;
-    // counter = 0;
+    initial_time = aptk::time_used()-cur_time;
+    counter = 0;
 }
 
 External::~External() {
-    // //LPT_INFO("External Function Evaluation", "Initial time" << initial_time);
-    // cout << "[INFO][Function] Number of calling: " << counter << endl;
-    // cout << "[INFO][Function] Initial Time: " << initial_time << endl;
-    // cout << "[INFO][Function] Total Checking Time: " << time_counter << endl;
-    // //cout << "\n\n\n\nThis is end" << endl;
-    // //cout << counter <<endl;
+    cout << "[INFO][Function] Number of calling: " << counter << endl;
+    cout << "[INFO][Function] Initial Time: " << initial_time << endl;
+    cout << "[INFO][Function] Total Checking Time: " << time_counter << endl;
+    ofstream myfile;
+    myfile.open("running.txt");
+    myfile << "[INFO][Function] Number of calling: " << counter << endl;
+    myfile << "[INFO][Function] Initial Time: " << initial_time << endl;
+    myfile << "[INFO][Function] Total Checking Time: " << time_counter << endl;
+    myfile.close();
 
 }
 
@@ -106,7 +108,8 @@ External::translate(const std::vector<ObjectIdx>& args )  {
 ObjectIdx
 External::check(const std::vector<ObjectIdx>& args )  {
     //cout << "------------------checking" << endl;
-
+    float cur_time = aptk::time_used();
+    counter++;
     ObjectIdx a1_input = args[0];
     ObjectIdx a2_input = args[1];
     ObjectIdx a3_input = args[2];
@@ -311,6 +314,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
     }
     
     ObjectIdx count = result1;
+    time_counter = time_counter + aptk::time_used() - cur_time;
     *state1=state_temp;
     return count;
 }
