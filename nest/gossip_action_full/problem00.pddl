@@ -3,7 +3,7 @@
     (:domain s_media)
     ; there is no comments allows in objects
     (:objects
-        p1 p2 p3 p4 p5 p6 - query
+        p1 p2 p3 p4 p5 p6 p7 p8 p9 - query
     )
             
 
@@ -55,13 +55,19 @@
         (= (@check (calling_a_b) (calling_a_c) (calling_b_c) p4) 1)
         (= (@check (calling_a_b) (calling_a_c) (calling_b_c) p5) 1)
         (= (@check (calling_a_b) (calling_a_c) (calling_b_c) p6) 1)
+        (= (@check (calling_a_b) (calling_a_c) (calling_b_c) p7) 1)
+        (= (@check (calling_a_b) (calling_a_c) (calling_b_c) p8) 1)
+        (= (@check (calling_a_b) (calling_a_c) (calling_b_c) p9) 1)
         ; when agt_a shouts, whether others can know what he knows
-        ; {"query_info":{"id":"p1","query":"ds 2 s1:value:1"}}
-        ; {"query_info":{"id":"p2","query":"ds 3 s1:value:1"}}
-        ; {"query_info":{"id":"p3","query":"ds 1 s2:value:1"}}
-        ; {"query_info":{"id":"p4","query":"ds 3 s2:value:1"}}
-        ; {"query_info":{"id":"p5","query":"ds 1 s3:value:1"}}
+        ; {"query_info":{"id":"p1","query":"ds 1 s1:value:1"}}
+        ; {"query_info":{"id":"p2","query":"ds 1 s2:value:1"}}
+        ; {"query_info":{"id":"p3","query":"ds 1 s3:value:1"}}
+        ; {"query_info":{"id":"p4","query":"ds 2 s1:value:1"}}
+        ; {"query_info":{"id":"p5","query":"ds 2 s2:value:1"}}
         ; {"query_info":{"id":"p6","query":"ds 2 s3:value:1"}}
+        ; {"query_info":{"id":"p7","query":"ds 3 s1:value:1"}}
+        ; {"query_info":{"id":"p8","query":"ds 3 s2:value:1"}}
+        ; {"query_info":{"id":"p9","query":"ds 3 s3:value:1"}}
 
 
         ; {"query_info":{"id":"n1","query":"dk 3 dk 2 obj_1:value:1"}}
