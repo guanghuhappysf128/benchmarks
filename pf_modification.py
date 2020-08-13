@@ -5,19 +5,19 @@ def find(name, path):
         if name in files:
             return os.path.join(root,name)
 
-# sconstruct_path=find("SConstruct",os.environ['FS_PATH']+"/planners/generic/")
+sconstruct_path=find("SConstruct",os.environ['FS_PATH']+"/planners/generic/")
 
-# f = open(sconstruct_path, "r")
-# contents = f.readlines()
-# f.close()
+f = open(sconstruct_path, "r")
+contents = f.readlines()
+f.close()
 
-# contents.insert(32, "#")
-# contents.insert(34, "env.Append( CCFLAGS = ['-Wall', '-pedantic', '-std=c++14', '-fpermissive' ] )\n")
+contents.insert(32, "#")
+contents.insert(34, "env.Append( CCFLAGS = ['-Wall', '-pedantic', '-std=c++14', '-fpermissive' ] )\n")
 
-# f = open(sconstruct_path, "w")
-# contents = "".join(contents)
-# f.write(contents)
-# f.close()
+f = open(sconstruct_path, "w")
+contents = "".join(contents)
+f.write(contents)
+f.close()
 
 external_path=find("runner.py",os.environ['FS_PATH']+"/python/parser/")
 
