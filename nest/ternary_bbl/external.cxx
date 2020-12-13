@@ -151,21 +151,8 @@ External::check1(const std::vector<ObjectIdx>& args ) {
     LPT_DEBUG("checking", "This is string: " << output << "\n");
 
     //bool re = writing(output);
-    int result1=0;
-    //char* query = output.c_str();
-    //check2(query, &result1);
-    //dlclose(libsim);
-    //LPT_DEBUG("checking", "This query is " << result1 << "\n");
-    
+    int result1=0;    
     result1 = check_epistemic(output);
-
-
-    // if (result1==0)
-    // {
-    //     cout << output <<endl;
-    //     cout << "result is " << result1<<endl;
-    // }
-    // cout << "result1 is: " << result1 << endl;  
     ObjectIdx count = result1; 
     // cout << count << endl;
     time_counter = time_counter + aptk::time_used() - cur_time;

@@ -633,6 +633,146 @@ Ternary ProblemState::checkV(Variable &v)
     return Ternary::unknown;
 }
 
+Ternary ProblemState::checkS(Seeing &s, Variable &v)
+    {
+        // in this domain sees means knowing whether
+        // for nested seeing relationship
+        // seeing means sees all direct first children agent
+        // and knowing their child's location
+        // since the assumption is location is aware by all agents
+        // only need to check sees children
+        // and the prove for sees that is the agent has non-empty
+        //  range or direction
+
+        //if the next sees is a variable, which mean we want to check whether
+
+        if (s.ptr_type == Seeing:: VARIABLE)
+        {
+
+            // cout << "Current State: " << this->show() << endl;
+            // cout << "seeing variable" << endl;
+            // cout << s.show() << endl;
+
+            if (this->findAgent(v.getId()))
+            {
+                if (this->getAgent(v.getId()).getV("visible")=="NONE")
+                    return Ternary::lie;
+                else return Ternary::truth;
+            }
+            else if (this->findObject(v.getId()))
+            {
+                // cout << "value in state: " << this->getObject(v.getId()).getV(v.getName()) << endl;
+                // cout << "value in variable: " << v.getValue() << endl;
+                if (this->getObject(v.getId()).getV(v.getName())!=v.getValue())
+                    return Ternary::lie;
+                else return Ternary:: truth;         
+            }
+            else
+            {
+                return Ternary::lie;
+            }
+            
+        }
+        else
+        {
+
+            
+            ProblemState nextState = s.getState(*this);
+
+            // if (s.seeing_ptr->ptr_type!=Seeing::VARIABLE && s.agent_ids.front()=="agt_a")
+            // {
+            //     cout << "Current State: " << this->show() << endl;
+            //     cout << "nested seeing: "<< endl;  
+            //     cout << s.show() << endl;
+            //     cout << "Next State: " << nextState.show() << endl;
+            // }
+
+            // if the variable is not visible in this perspective, it means this perpective unknown whether the objects is in the next perspective or not
+            // cout << "seeing pointer seeing type" << s.seeing_ptr->ptr_type << endl;
+            Seeing temp_s = s;
+
+            vector<string> agent_id_list;
+            while (temp_s.seeing_ptr->ptr_type!=Seeing::VARIABLE)
+            {
+                temp_s = *temp_s.seeing_ptr;
+                for (auto i :temp_s.agent_ids)
+                {
+                    if (!count(agent_id_list.begin(), agent_id_list.end(), i))
+                        agent_id_list.push_back(i);
+                }
+            }
+
+            // cout << "checking visible agent" << endl;
+            // return unknown if any of the nest seeing contains unseen agent
+            for (auto i: agent_id_list)
+            {
+                if (nextState.findAgent(i))
+                {
+                    if (nextState.getAgent(i).getV("visible")=="NONE")
+                    {
+                        // cout << "return false" << endl;
+                        return Ternary::lie;
+                    }
+                        
+                }
+            }
+
+            // cout << "checking visible object" << endl;
+            //return unknown if the final variable is unsee to the current agent
+            if (nextState.findAgent(v.getId())&& s.seeing_ptr->ptr_type!=Seeing::VARIABLE)
+            {
+                if (nextState.getAgent(v.getId()).getV("visible")=="NONE")
+                {
+                    // cout << "return unknown" << endl;
+                    return Ternary::unknown;
+                }
+                    
+            }
+            else if (nextState.findObject(v.getId())&& s.seeing_ptr->ptr_type!=Seeing::VARIABLE)
+            {
+                if (nextState.getObject(v.getId()).getV("visible")=="NONE")
+                {
+                    // cout << "return unknown" << endl;
+                    return Ternary::unknown;
+                }         
+            }
+            else if (nextState.findAgent(v.getId()))
+            {
+                if (nextState.getAgent(v.getId()).getV("visible")=="NONE")
+                {
+                    // cout << "return unknown" << endl;
+                    return Ternary::lie;
+                }
+                else
+                {
+                    return Ternary::truth;
+                }
+                
+                    
+            }
+            else if (nextState.findObject(v.getId()))
+            {
+                if (nextState.getObject(v.getId()).getV("visible")=="NONE")
+                {
+                    // cout << "return unknown" << endl;
+                    return Ternary::lie;
+                }
+                else
+                {
+                    return Ternary::truth;
+                }
+                    
+            }
+            // else
+            // {
+            //     // cout << "check nesting" << endl;
+            //     return nextState.checkS(*s.seeing_ptr,v);
+            // }
+        }
+
+        return Ternary::truth;
+    };
+
 //-------------------------------------------------------
 // Helper functions
 //
