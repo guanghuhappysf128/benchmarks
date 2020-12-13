@@ -129,29 +129,11 @@ int check_epistemic(string str)
 
 
     int result=0;
-    for (auto i : s_ptr_list)
+    for (auto i : s_buff)
     {
-        // int temp=0;
-        // if (i->ptr_type==Seeing::VARIABLE)
-        // {
-        //     ProblemState temp_s=i->getState(*state_ptr);
-        //     cout << "state is: "<<temp_s.show()<<endl;
-        //     cout << "variable is: "<<i->variable_ptr->show()<<endl;
-        //     temp=temp_s.checkV(*i->variable_ptr);
-        //     cout << temp << endl;
-        // }
-        //     //temp=i->getState(*state_ptr).checkV(*i->variable_ptr);
-        // else
-        // {
-        //     ProblemState temp_s=i->getState(*state_ptr);
-        //     cout << "state is: "<<temp_s.show()<<endl;
-        //     cout << "seeing is: "<<i->seeing_ptr->show()<<endl;
-        //     temp=temp_s.checkS(*i);
-        //     cout << temp << endl;
-        // }
 
-        Variable* vp = i->getTVP();
-        Ternary temp=state_ptr->checkS(*i, *vp);
+        Variable* vp = i.getTVP();
+        Ternary temp=state_ptr->checkS(i, *vp);
         // cout << "temp is " << temp << endl;
 
         // priority of the result unknown > lie > truth

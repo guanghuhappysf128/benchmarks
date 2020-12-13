@@ -124,11 +124,11 @@ bool check_epistemic(string str)
 
 
     int result=0;
-    for (auto i : s_ptr_list)
+    for (auto i : s_buff)
     {
 
-        Variable* vp = i->getTVP();
-        int temp=state_ptr->checkS(*i, *vp);
+        Variable* vp = i.getTVP();
+        int temp=state_ptr->checkS(i, *vp);
 
         // priority of the result unknown > lie > truth
         result = max(result,int(temp));
