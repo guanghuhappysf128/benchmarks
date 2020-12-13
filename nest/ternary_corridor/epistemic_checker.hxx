@@ -333,14 +333,32 @@ public:
     {
         vector<Agent> result_agents;
         vector<Object> result_objects;
-        for (auto i: this->objects)
+        if (this->getAgent(agt.getId()).getV("visible")=="NONE")
         {
-            result_objects.push_back(agt.seesOV(i));
+            for (auto i: this->objects)
+            {
+                Object object(i.getId());
+                result_objects.push_back(object);
+            }
+            for (auto i: this->agents)
+            {
+                Agent agent(i.getId());
+                result_agents.push_back(agent);
+            }
         }
-        for (auto i: this->agents)
+        else
         {
-            result_agents.push_back(agt.seesAV(i));
+            for (auto i: this->objects)
+            {
+                result_objects.push_back(agt.seesOV(i));
+            }
+            for (auto i: this->agents)
+            {
+                result_agents.push_back(agt.seesAV(i));
+            }
         }
+        
+
         ProblemState new_state(result_agents,result_objects);
         return new_state;
     };

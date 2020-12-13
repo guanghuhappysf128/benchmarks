@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 #include <list>
+#include <algorithm>
 
 #ifndef SIM_GEN_STATE_H
 #define SIM_GEN_STATE_H
@@ -218,6 +219,88 @@ public:
     }
 };
 
+
+class Seeing
+{
+public:
+    bool negation;
+    enum {ES,DS,CS,SV} seeing_type;
+    enum {SEEING,VARIABLE} ptr_type;
+    union
+    {
+        Seeing* seeing_ptr;
+//        class pair<string,Object>* object_ptr;
+//        class pair<string,Agent>* agent_ptr;
+        Variable* variable_ptr;
+    };
+    vector<string> agent_ids;
+
+    Seeing(bool negation, string seeing_type_string, string ptr_type_str, vector<string> agent_ids)
+    {
+        if (seeing_type_string == "es") this -> seeing_type = ES;
+        else if (seeing_type_string == "ds") this -> seeing_type = DS;
+        else if (seeing_type_string == "cs") this -> seeing_type = CS;
+        else if (seeing_type_string == "sv") this -> seeing_type = SV;
+        //else assert("seeing type error when init");
+
+        if (ptr_type_str == "seeing") this -> ptr_type = SEEING;
+//        else if (ptr_type_str == "object") this -> ptr_type = OBJECT;
+//        else if (ptr_type_str == "agent") this -> ptr_type = AGENT;
+        else if (ptr_type_str == "variable") this -> ptr_type = VARIABLE;
+        //else assert("seeing pointer type error when init");
+
+        this -> agent_ids = agent_ids;
+        this -> negation = negation;
+    };
+    string show()
+    {
+        string result;
+        result.append("(in group [");
+        if (seeing_type!=SV)
+        {
+            for (auto i : agent_ids)
+            {
+                result.append(i);
+                result.append(",");
+            }
+            result.pop_back();
+        }
+        result.append("] ");
+        //cout << "seeing agent fine"<<endl;
+        switch(seeing_type)
+        {
+            case ES: result.append("everyone sees "); break;
+            case DS: result.append("distributed sees "); break;
+            case CS: result.append("commonly sees "); break;
+            case SV: result.append("sees target "); break;
+            //default: assert("seeing type error when show");
+        }
+        //cout << "seeing case fine"<<endl;
+        switch (ptr_type)
+        {
+            case SEEING: result.append(seeing_ptr->show()); break;
+            case VARIABLE: result.append(variable_ptr->show());break;
+//            case OBJECT: result.append(object_ptr->second.show()); break;
+//            case AGENT: result.append(agent_ptr->second.show()); break;
+            //default: assert("seeing pointer type error when show");
+        }
+        //cout << "seeing next fine"<<endl;
+        return result;
+    };
+
+    ProblemState getState(ProblemState s);
+    Variable* getTVP()
+    {
+        Seeing* sp_temp = this;
+        while(sp_temp->ptr_type!=VARIABLE)
+        {
+            sp_temp = sp_temp-> seeing_ptr;
+        }
+        return sp_temp -> variable_ptr;
+    };
+};
+
+
 class ProblemState  
 {
 private:
@@ -250,14 +333,32 @@ public:
     {
         vector<Agent> result_agents;
         vector<Object> result_objects;
-        for (auto i: this->objects)
+        if (this->getAgent(agt.getId()).getV("visible")=="NONE")
         {
-            result_objects.push_back(agt.seesOV(i));
+            for (auto i: this->objects)
+            {
+                Object object(i.getId());
+                result_objects.push_back(object);
+            }
+            for (auto i: this->agents)
+            {
+                Agent agent(i.getId());
+                result_agents.push_back(agent);
+            }
         }
-        for (auto i: this->agents)
+        else
         {
-            result_agents.push_back(agt.seesAV(i));
+            for (auto i: this->objects)
+            {
+                result_objects.push_back(agt.seesOV(i));
+            }
+            for (auto i: this->agents)
+            {
+                result_agents.push_back(agt.seesAV(i));
+            }
         }
+        
+
         ProblemState new_state(result_agents,result_objects);
         return new_state;
     };
@@ -364,85 +465,6 @@ public:
 
 
 
-class Seeing
-{
-public:
-    bool negation;
-    enum {ES,DS,CS,SV} seeing_type;
-    enum {SEEING,VARIABLE} ptr_type;
-    union
-    {
-        Seeing* seeing_ptr;
-//        class pair<string,Object>* object_ptr;
-//        class pair<string,Agent>* agent_ptr;
-        Variable* variable_ptr;
-    };
-    vector<string> agent_ids;
-
-    Seeing(bool negation, string seeing_type_string, string ptr_type_str, vector<string> agent_ids)
-    {
-        if (seeing_type_string == "es") this -> seeing_type = ES;
-        else if (seeing_type_string == "ds") this -> seeing_type = DS;
-        else if (seeing_type_string == "cs") this -> seeing_type = CS;
-        else if (seeing_type_string == "sv") this -> seeing_type = SV;
-        //else assert("seeing type error when init");
-
-        if (ptr_type_str == "seeing") this -> ptr_type = SEEING;
-//        else if (ptr_type_str == "object") this -> ptr_type = OBJECT;
-//        else if (ptr_type_str == "agent") this -> ptr_type = AGENT;
-        else if (ptr_type_str == "variable") this -> ptr_type = VARIABLE;
-        //else assert("seeing pointer type error when init");
-
-        this -> agent_ids = agent_ids;
-        this -> negation = negation;
-    };
-    string show()
-    {
-        string result;
-        result.append("(in group [");
-        if (seeing_type!=SV)
-        {
-            for (auto i : agent_ids)
-            {
-                result.append(i);
-                result.append(",");
-            }
-            result.pop_back();
-        }
-        result.append("] ");
-        //cout << "seeing agent fine"<<endl;
-        switch(seeing_type)
-        {
-            case ES: result.append("everyone sees "); break;
-            case DS: result.append("distributed sees "); break;
-            case CS: result.append("commonly sees "); break;
-            case SV: result.append("sees target "); break;
-            //default: assert("seeing type error when show");
-        }
-        //cout << "seeing case fine"<<endl;
-        switch (ptr_type)
-        {
-            case SEEING: result.append(seeing_ptr->show()); break;
-            case VARIABLE: result.append(variable_ptr->show());break;
-//            case OBJECT: result.append(object_ptr->second.show()); break;
-//            case AGENT: result.append(agent_ptr->second.show()); break;
-            //default: assert("seeing pointer type error when show");
-        }
-        //cout << "seeing next fine"<<endl;
-        return result;
-    };
-
-    ProblemState getState(ProblemState s);
-    Variable* getTVP()
-    {
-        Seeing* sp_temp = this;
-        while(sp_temp->ptr_type!=VARIABLE)
-        {
-            sp_temp = sp_temp-> seeing_ptr;
-        }
-        return sp_temp -> variable_ptr;
-    };
-};
 
 class Knowledge
 {
@@ -560,7 +582,7 @@ public:
 
 
 
-int check_epistemic(string str);
+bool check_epistemic(string str);
 template <typename T> T translate(string str);
 Seeing* transS(vector<string> details);
 Knowledge* transK(vector<string> details);
@@ -576,8 +598,8 @@ ProblemState intersectState(ProblemState s1, ProblemState s2);
 vector<string> split(string str, char ch);
 void print_list(vector<string> list);
 
-bool sees(string agent_l,string agent_d,string agent_r,string target_l);
-// bool sees(string agent_l,string target_l);
+//bool sees(string agent_l,string agent_d,string agent_r,string target_l);
+bool sees(string agent_l,string target_l);
 
 
 
