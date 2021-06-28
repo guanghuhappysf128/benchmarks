@@ -1,7 +1,8 @@
 (define (domain gossip)
 	(:requirements :strips :typing :equality :adl)
 	(:types
-		boolean action_sequence query - int
+		boolean action_sequence - int
+		query
 	)
 
 	(:predicates

@@ -6,10 +6,10 @@
 	)
 
 	(:init
-	; {"agent_info":{"id":"1","name":"alice"}}
-	; {"agent_info":{"id":"2","name":"alice"}}
-	; {"agent_info":{"id":"3","name":"alice"}}
-	; {"agent_info":{"id":"4","name":"alice"}}
+	; {"agent_info":{"id":"1","name":"alice","location":"0,0"}}
+	; {"agent_info":{"id":"2","name":"alice","location":"0,0"}}
+	; {"agent_info":{"id":"3","name":"alice","location":"0,0"}}
+	; {"agent_info":{"id":"4","name":"alice","location":"0,0"}}
 	; {"object_info":{"id":"k1s1","value":"1"}}
 	; {"object_info":{"id":"k2s2","value":"1"}}
 	; {"object_info":{"id":"k3s3","value":"1"}}

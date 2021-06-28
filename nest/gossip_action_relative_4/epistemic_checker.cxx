@@ -20,7 +20,7 @@ list<Variable> v_buff;
 
 
 ProblemState* state_ptr;
-//bool debug = true;
+// bool debug = true;
 bool debug = false;
 //Query* query_ptr;
 
@@ -185,15 +185,15 @@ bool check_epistemic(string str)
             if (debug)
             {
                 cout << "this is seeing: "<<temp_i->show()<<endl;
-                cout << "seeing type is" << temp_i->seeing_type << "is smae as " << Seeing::SV << endl;
+                cout << "seeing type is " << temp_i->seeing_type << " is the same as " << Seeing::SV << endl;
                 cout << "localstate is: "<<temp_s.show()<<endl;
             }
             temp_s = temp_i->getState(temp_s);
-            //cout << "new tmep state";
-            //cout << temp_s.show();
+            // cout << "new tmep state";
+            // cout << temp_s.show();
             temp_i = temp_i->seeing_ptr;
-            //cout << "new tmep seeing"<<endl;
-            //cout << temp_i->show()<<endl;
+            // cout << "new tmep seeing"<<endl;
+            // cout << temp_i->show()<<endl;
         }
         if(temp_i->ptr_type==Seeing::VARIABLE)
         {
@@ -629,32 +629,34 @@ ProblemState mergingState(bool uni,ProblemState s1,ProblemState s2)
 
 ProblemState Seeing::getState(ProblemState s)
 {
-    //cout<<"get in getState:" <<agent_ids.front() << endl;
-    //cout << "current seeing is " << this->show() << endl;
-    //print_list(agent_ids);
+    // cout<<"get in getState:" <<agent_ids.front() << endl;
+    // cout << "current seeing is " << this->show() << endl;
+    // print_list(agent_ids);
     if (!s.findAgent(agent_ids.front()))
     {
-        //cout << "agent id error on get state" << endl;
+        // cout << "agent id error on get state" << endl;
         //assert("agent id error on get state");
 
     }
     else
     {
+        // cout<<"agent found" << endl;
+        // cout << s.getAgent(agent_ids.front()).print() << endl;
         ProblemState result_state = s.getAgentState(s.getAgent(agent_ids.front()));
-        //cout<<"get in agent state" << endl;
+        // cout << "get in agent state" << endl;
         if (agent_ids.size()==1)
         {
-            //cout<<"size one" << endl;
+            // cout<<"size one" << endl;
             return result_state;
         }
         else
         {
-//            cout << "The group of agents " << endl;
-//            for (auto i : agent_ids)
-//            {
-//                cout << " " << i;
-//            }
-//            cout << endl;
+        //    cout << "The group of agents " << endl;
+        //    for (auto i : agent_ids)
+        //    {
+        //        cout << " " << i;
+        //    }
+        //    cout << endl;
             //agent_ids.erase(agent_ids.begin());
             if (this->seeing_type == ES)
             {
@@ -671,22 +673,22 @@ ProblemState Seeing::getState(ProblemState s)
             }
             else if (this->seeing_type == DS)
             {
-//                cout<<"get in ds" << endl;
+            //    cout<<"get in ds" << endl;
                 for (auto i:agent_ids)
                 {
                     Agent t_agt = s.getAgent(i);
                     //if (t_agt!=NULL)
                     if (i!=agent_ids.front())
                     {
-//                        cout << "State before merge--------------"<< endl;
-//                        cout << result_state.show() << endl;
-//                        cout << "Second state before merge" << endl;
-//                        cout << s.getAgentState(t_agt).show()<< endl;
+                    //    cout << "State before merge--------------"<< endl;
+                    //    cout << result_state.show() << endl;
+                    //    cout << "Second state before merge" << endl;
+                    //    cout << s.getAgentState(t_agt).show()<< endl;
                         result_state = mergingState(true,result_state,s.getAgentState(t_agt));
-//                        result_state = result1;
-//                        cout << "Result state" << endl;
-//                        cout << result_state.show() << endl;
-//                        cout << "_______________\n\n" << endl;
+
+                    //    cout << "Result state" << endl;
+                    //    cout << result_state.show() << endl;
+                    //    cout << "_______________\n\n" << endl;
                     }
                 }
             }

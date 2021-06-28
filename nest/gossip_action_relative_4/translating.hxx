@@ -103,7 +103,7 @@ static ProblemState generateS()
             }
             else if ((found = line.find(query_str))!=string::npos)
             {
-                std::cout << line << endl;
+                // std::cout << line << endl;
                 line.erase(line.begin(),line.begin()+found+query_str.length()+2);
                 line.erase(line.end()-1,line.end());
                 stringstream ss;

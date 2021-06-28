@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
         f.write("\t(:init\n")
         for i in range(num_of_agents):
-            f.write('\t; {"agent_info":{"id":"'+str(i+1)+'","name":"alice"}}\n')
+            f.write('\t; {"agent_info":{"id":"'+str(i+1)+'","name":"alice","location":"0,0"}}\n')
         for i in range(num_of_agents):
             f.write('\t; {"object_info":{"id":"k'+str(i+1)+'s'+str(i+1)+'","value":"1"}}\n')
         f.write("\n")

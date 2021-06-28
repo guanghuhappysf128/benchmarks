@@ -119,16 +119,37 @@ External::check(const std::vector<ObjectIdx>& args )  {
     ObjectIdx a4_input = args[3];
     ObjectIdx a5_input = args[4];
     ObjectIdx a6_input = args[5];
-    ObjectIdx query_input = args[7];
-
+    ObjectIdx query_input = args[6];
+    // cout << "reading argument" << endl;
     ProblemState state_temp = *state1;
+    // cout << "init state" << endl;
     int action_sequences[NUM_OF_ACTIONS]={a1_input,a2_input,a3_input,a4_input,a5_input,a6_input};
-    int query_id_int = query_input;
-    string query_id_str = pddl_objects.find(query_id_int)->second;
 
+    if (a1_input+a2_input+a3_input+a4_input+a5_input+a6_input == 0) return 0;
+
+    // cout << "init actions" << endl;
+    int query_id_int = query_input;
+    // cout << "finding query: " << query_id_int << endl;
+    string query_id_str = pddl_objects.find(query_id_int)->second;
+    // for (auto elem: pddl_objects)
+    // {
+    //     cout << elem.first << " "<< elem.second << endl; 
+    // }
+    // for (auto elem: queries)
+    // {
+    //     cout << elem.first << " "<< elem.second << endl; 
+    // }
+    boost::trim_if(query_id_str, boost::is_any_of("\t")); // removes only tabs
+    // cout << "find q string with id: " << query_id_str << endl;
     string query_string = queries.find(query_id_str)->second;
+    // cout << "find q string: " << query_string << endl;
+    
+
+    // boost::trim(s); // removes all leading and trailing white spaces
+    
+
     vector<string> query_list = split(query_string,'|');
-    //print_list(query_list);
+    // print_list(query_list);
     int max_depth =0;
     vector<vector<string>> query_detail_list;
     for (auto i:query_list)
@@ -138,9 +159,9 @@ External::check(const std::vector<ObjectIdx>& args )  {
         max_depth = max(max_depth,(int)(temp.size()-1)/2);
     }
 
-//    cout << "The max depth is " << max_depth << endl;
+    // cout << "The max depth is " << max_depth << endl;
 
- //   cout << "Generate actions base on action sequence" << endl;
+    // cout << "Generate actions base on action sequence" << endl;
     vector<int> all_actions_list[NUM_OF_ACTIONS];
     bool flag=true;
     while (flag)
@@ -158,7 +179,6 @@ External::check(const std::vector<ObjectIdx>& args )  {
                 flag=true;
             }
         }
-
     }
     // for (auto i: all_actions_list)
     // {
@@ -180,7 +200,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
             all_actions_list[j].pop_back();
         }
     }
-    //cout << "szie is " <<action_sequence_num.size()<<endl;
+    // cout << "szie is " <<action_sequence_num.size()<<endl;
 
     // cout << "Result is ";
     // for (auto i: action_sequence_num)
@@ -198,39 +218,73 @@ External::check(const std::vector<ObjectIdx>& args )  {
         // cout << "STATE1 before update: " << state1->print() << endl;
         char a1;
         char a2;
-
-        switch (action_num)
+        if (action_num == 0)
         {
-        case 0:
             a1 = '1';
             a2 = '2';
-            break;
-        case 1:
+        } 
+        else if (action_num == 1)
+        {
             a1 = '1';
             a2 = '3';
-            break;
-        case 2:
+        }
+        else if (action_num == 2)
+        {
             a1 = '1';
             a2 = '4';
-            break;
-        case 3:
+        }
+        else if (action_num == 3)
+        {
             a1 = '2';
             a2 = '3';
-            break;
-        case 4:
+        }
+        else if (action_num == 4)
+        {
             a1 = '2';
             a2 = '4';
-            break;
-        case 5:
+        }
+        else if (action_num == 5)
+        {
             a1 = '3';
             a2 = '4';
-            break;
-        
-        default:
+        }
+        else
+        {
             cout << "action number wrong" << endl;
             return 0;
-            break;
         }
+        // switch (action_num)
+        // {
+        // case 0:
+        //     a1 = '1';
+        //     a2 = '2';
+        //     break;
+        // case 1:
+        //     a1 = '1';
+        //     a2 = '3';
+        //     break;
+        // case 2:
+        //     a1 = '1';
+        //     a2 = '4';
+        //     break;
+        // case 3:
+        //     a1 = '2';
+        //     a2 = '3';
+        //     break;
+        // case 4:
+        //     a1 = '2';
+        //     a2 = '4';
+        //     break;
+        // case 5:
+        //     a1 = '3';
+        //     a2 = '4';
+        //     break;
+        
+        // default:
+        //     cout << "action number wrong" << endl;
+        //     return 0;
+        //     break;
+        // }
         // if (action_num == 0)
         // {
         //     a1 = '1';
@@ -340,7 +394,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
 
     string output;
     output.append(state1->print());
-    //cout << "Step 3" <<endl;
+    // cout << "Step 3" <<endl;
     output.append("/query:/");
     output.append(queries.find(query_id_str)->second);
     // cout << output << endl;
