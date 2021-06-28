@@ -412,7 +412,7 @@ if __name__ == '__main__':
     # adding_fpermissive()
     # adding_external_function_files()
 
-    n = 7
+    n = 10
     # add n arity support in static.hxx
     adding_n_arity1(n)
     # add n arity support in static.cxx
