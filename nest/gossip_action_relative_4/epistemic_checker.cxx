@@ -200,10 +200,10 @@ bool check_epistemic(string str)
                 cout << "localstate is: "<<temp_s.show()<<endl;
             }
             temp_s = temp_i->getState(temp_s);
-            // cout << "new tmep state";
+            // cout << "newtmep state";
             // cout << temp_s.show();
             temp_i = temp_i->seeing_ptr;
-            // cout << "new tmep seeing"<<endl;
+            // cout << "newtmep seeing"<<endl;
             // cout << temp_i->show()<<endl;
         }
         if(temp_i->ptr_type==Seeing::VARIABLE)
@@ -282,14 +282,14 @@ T translate(string str)
     {
         print_list(details);
     }
-    auto item = new T(details.front());
+    T item(details.front());
     details.erase(details.begin());
     for (auto i : details)
     {
         vector<string> variable= split(i,':');
-        item->addVariable(variable.front(),variable.at(1));
+        item.addVariable(variable.front(),variable.at(1));
     }
-    return *item;
+    return item;
 }
 
 //need more work on negation

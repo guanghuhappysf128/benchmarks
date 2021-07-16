@@ -109,6 +109,17 @@ public:
         return "NONE";
     };
     string getId(){return this->id;};
+    // void clear_all()
+    // {
+    //     while(this->variables.size()!=0)
+    //     {
+    //         // Variable* i = this->variables.back().getPtr();
+    //         // delete(i);
+    //         this->variables.back().~Variable();
+    //         this->variables.pop_back();
+    //         // delete(i);
+    //     }
+    // };
     void addVariable(string name, string value)
     {
         Variable temp(name,value,this->id);
