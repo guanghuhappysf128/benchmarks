@@ -146,7 +146,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
     
 
     // boost::trim(s); // removes all leading and trailing white spaces
-    
+
 
     vector<string> query_list = split(query_string,'|');
     // print_list(query_list);
@@ -157,10 +157,10 @@ External::check(const std::vector<ObjectIdx>& args )  {
         vector<string> temp = split(i,' ');
         query_detail_list.push_back(temp);
         max_depth = max(max_depth,(int)(temp.size()-1)/2);
+        temp.clear();
     }
-
+    query_list.clear();
     // cout << "The max depth is " << max_depth << endl;
-
     // cout << "Generate actions base on action sequence" << endl;
     vector<int> all_actions_list[NUM_OF_ACTIONS];
     bool flag=true;
@@ -200,6 +200,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
             all_actions_list[j].pop_back();
         }
     }
+    all_actions_list->clear();
     // cout << "szie is " <<action_sequence_num.size()<<endl;
 
     // cout << "Result is ";
@@ -215,7 +216,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
 
 
         // cout << "This is action " << action_num << endl;
-        // cout << "STATE1 before update: " << state1->print() << endl;
+        // cout << "STATE1 before update: " << state_temp->print() << endl;
         char a1;
         char a2;
         if (action_num == 0)
@@ -253,62 +254,14 @@ External::check(const std::vector<ObjectIdx>& args )  {
             cout << "action number wrong" << endl;
             return 0;
         }
-        // switch (action_num)
-        // {
-        // case 0:
-        //     a1 = '1';
-        //     a2 = '2';
-        //     break;
-        // case 1:
-        //     a1 = '1';
-        //     a2 = '3';
-        //     break;
-        // case 2:
-        //     a1 = '1';
-        //     a2 = '4';
-        //     break;
-        // case 3:
-        //     a1 = '2';
-        //     a2 = '3';
-        //     break;
-        // case 4:
-        //     a1 = '2';
-        //     a2 = '4';
-        //     break;
-        // case 5:
-        //     a1 = '3';
-        //     a2 = '4';
-        //     break;
-        
-        // default:
-        //     cout << "action number wrong" << endl;
-        //     return 0;
-        //     break;
-        // }
-        // if (action_num == 0)
-        // {
-        //     a1 = '1';
-        //     a2 = '2';
-        // }
-        // else if (action_num == 1)
-        // {
-        //     a1 = '1';
-        //     a2 = '3';
-        // }
-        // else if (action_num == 2)
-        // {
-        //     a1 ='2';
-        //     a2 = '3';
-        // } else{
-        //     //cout << "agent number wrong" << endl;
-        //     return 1;
-        // }
+        action_sequence_num.clear();
+
         for (auto query_detail : query_detail_list)
         {
             for (int depth = 0; depth < (query_detail.size() - 1) / 2;depth++)
             {
                 vector<Object> temp_objects;
-                for (auto object: *state1->getObjects()) {
+                for (auto object: *state_temp.getObjects()) {
                     auto temp_query_detail = query_detail;
                     int temp_depth = depth;
                     string obj_name = object.getId();
@@ -317,6 +270,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
                     if (obj_name.size() > (depth+2) * 2) {
                         continue;
                     }
+                    
                     // cout << depth << endl;
                     // cout << "Object name is " << obj_name << endl;
                     bool relative = true;
@@ -350,6 +304,7 @@ External::check(const std::vector<ObjectIdx>& args )  {
                             obj_name.pop_back();
                         }
                     }
+                    
                     if (obj_name.back() != a1 && obj_name.back() != a2 && obj_name.size()!=0) {
                         // cout << "False becasue of agent" << endl;
                         relative = false;
@@ -360,43 +315,50 @@ External::check(const std::vector<ObjectIdx>& args )  {
                         string name1 = "k";
                         name1.push_back(a1);
                         name1.append(temp_obj_name);
-                        if (!state1->findObject(name1)) {
+                        if (!state_temp.findObject(name1)) {
                             Object temp(name1);
+                            
                             temp.addVariable("value", "1");
                             temp_objects.push_back(temp);
+                            
                         }
+                        name1.clear();
                         string name2 = "k";
                         name2.push_back(a2);
                         name2.append(temp_obj_name);
-                        if (!state1->findObject(name2)&&name1!=name2) {
+                        if (!state_temp.findObject(name2)&&name1!=name2) {
                             Object temp(name2);
                             temp.addVariable("value", "1");
                             temp_objects.push_back(temp);
                         }
+                        
                     }
+                    temp_query_detail.clear();
                 }
                 for (auto i : temp_objects)
                 {
-                    if (!state1->findObject(i.getId()))
+                    if (!state_temp.findObject(i.getId()))
                     {
-                        state1->getObjects()->push_back(i);
+                        state_temp.getObjects()->push_back(i);
                         // cout << "Adding object " << i.print()<< endl;
                     }
 
                 }
+                temp_objects.clear();
 
 
             }
         }
-        // cout << "STATE1 after update: " << state1->print() << endl;
+        // cout << "STATE1 after update: " << state_temp->print() << endl;
     }
-
-
+    query_detail_list.clear();
     string output;
-    output.append(state1->print());
+    output.append(state_temp.print());
     // cout << "Step 3" <<endl;
     output.append("/query:/");
     output.append(queries.find(query_id_str)->second);
+    query_id_str.clear();
+    
     // cout << output << endl;
     int result1=0;
     if (check_epistemic(output))
@@ -407,10 +369,10 @@ External::check(const std::vector<ObjectIdx>& args )  {
     {
         result1=0;
     }
-    
+    output.clear();
     ObjectIdx count = result1;
     time_counter = time_counter + aptk::time_used() - cur_time;
-    *state1=state_temp;
+    // *state1=state_temp;
     return count;
 }
 

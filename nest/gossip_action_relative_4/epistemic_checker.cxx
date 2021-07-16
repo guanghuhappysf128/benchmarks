@@ -36,7 +36,7 @@ void transQs(string query_str)
 
 bool check_epistemic(string str)
 {
-
+    // return 0;
 
     vector<Agent> agents;
     vector<Object> objects;
@@ -52,6 +52,7 @@ bool check_epistemic(string str)
     string state_str = state_query.at(1);
     //string facts_str =  state_query.at(3);
     string query_str = state_query.at(3);
+    state_query.clear();
     //cout << query_str<<endl;
 
     if (debug)
@@ -61,8 +62,12 @@ bool check_epistemic(string str)
     }
 
     vector<string> state_list = split(state_str,' ');
+    state_str.clear();
     string agent_str = state_list.at(1);
     string target_str = state_list.at(3);
+    
+    state_list.clear();
+
 
     if (debug)
     {
@@ -71,6 +76,7 @@ bool check_epistemic(string str)
     }
 
     vector<string> agent_list = split(agent_str,'|');
+    agent_str.clear();
 
     if (debug)
     {
@@ -81,7 +87,7 @@ bool check_epistemic(string str)
     {
         agents.push_back(translate<Agent>(i));
     }
-
+    agent_list.clear();
 
     if (debug)
     {
@@ -90,10 +96,14 @@ bool check_epistemic(string str)
     }
 
     vector<string> target_list = split(target_str,'|');
+    target_str.clear();
+    
     for (auto i:target_list)
     {
         objects.push_back(translate<Object>(i));
     }
+
+    target_list.clear();
 
 
     if (debug)
@@ -116,6 +126,7 @@ bool check_epistemic(string str)
 
 
     transQs(query_str);
+    query_str.clear();
 
 
     if (debug)
@@ -208,42 +219,15 @@ bool check_epistemic(string str)
             temp=temp_s.checkV(*temp_i->seeing_ptr->variable_ptr);
         }
 
-//        if (i->ptr_type==Seeing::VARIABLE)
-//        {
-//
-//            ProblemState temp_s=i->getState(*state_ptr);
-//            if (debug)
-//            {
-//                cout << "this is seeing: "<<i->show()<<endl;
-//                cout << "localstate is: "<<temp_s.show()<<endl;
-//                cout << "variable is: "<<i->variable_ptr->show()<<endl;
-//            }
-//
-//            temp=temp_s.checkV(*i->variable_ptr);
-//        }
-//            //temp=i->getState(*state_ptr).checkV(*i->variable_ptr);
-//        else
-//        {
-//            ProblemState temp_s=i->getState(*state_ptr);
-//            if (debug)
-//            {
-//                cout << "state is: "<<temp_s.show()<<endl;
-//                cout << "seeeing is: "<<i->show()<<endl;
-//            }
-//
-//            temp=temp_s.checkS(*i);
-//        }
         if (debug)
         {
             cout<< "checking seeing: "<<i->show()<<i->ptr_type<<" right now.\nresult is: "<<temp<<endl;
         }
 
         result = result&&temp;
+        // delete (temp_i);
     }
 
-
-
-//
     if (debug)
     {
 //        vector<string> agent_ids;
@@ -267,15 +251,21 @@ bool check_epistemic(string str)
 //        cout << "global state" << state_ptr->show() << endl;
         cout << "final result is "<< result << endl;
     }
+    
+    
+    s_ptr_list.clear();
+
     q_buff.clear();
     s_buff.clear();
     k_buff.clear();
     v_buff.clear();
+    agents.clear();
+    objects.clear();
 
 
 
 
-
+    delete (state_ptr);
     return result;
 }
 

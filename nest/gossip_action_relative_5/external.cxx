@@ -20,13 +20,13 @@
 
 
 #define PI 3.1415926
-// #define NUM_OF_AGENT 3
+#define NUM_OF_AGENT 5
 // #define POWER 27
 
 #define DEPTH 3
 
 // NUM_OF_AGENT * NUM_OF_AGENT / 2
-#define NUM_OF_ACTIONS 6
+#define NUM_OF_ACTIONS 10
 
 namespace boost_fs = boost::filesystem;
 
@@ -119,11 +119,15 @@ External::check(const std::vector<ObjectIdx>& args )  {
     ObjectIdx a4_input = args[3];
     ObjectIdx a5_input = args[4];
     ObjectIdx a6_input = args[5];
-    ObjectIdx query_input = args[6];
+    ObjectIdx a7_input = args[6];
+    ObjectIdx a8_input = args[7];
+    ObjectIdx a9_input = args[8];
+    ObjectIdx a10_input = args[9];  
+    ObjectIdx query_input = args[10];
     // cout << "reading argument" << endl;
     ProblemState state_temp = *state1;
     // cout << "init state" << endl;
-    int action_sequences[NUM_OF_ACTIONS]={a1_input,a2_input,a3_input,a4_input,a5_input,a6_input};
+    int action_sequences[NUM_OF_ACTIONS]={a1_input,a2_input,a3_input,a4_input,a5_input,a6_input,a7_input,a8_input,a9_input,a10_input};
 
     if (a1_input+a2_input+a3_input+a4_input+a5_input+a6_input == 0) return 0;
 
@@ -135,14 +139,14 @@ External::check(const std::vector<ObjectIdx>& args )  {
     // {
     //     cout << elem.first << " "<< elem.second << endl; 
     // }
-    // for (auto elem: queries)
-    // {
-    //     cout << elem.first << " "<< elem.second << endl; 
-    // }
+    for (auto elem: queries)
+    {
+        cout << elem.first << " "<< elem.second << endl; 
+    }
     boost::trim_if(query_id_str, boost::is_any_of("\t")); // removes only tabs
-    // cout << "find q string with id: " << query_id_str << endl;
+    cout << "find q string with id: " << query_id_str << endl;
     string query_string = queries.find(query_id_str)->second;
-    // cout << "find q string: " << query_string << endl;
+    cout << "find q string: " << query_string << endl;
     
 
     // boost::trim(s); // removes all leading and trailing white spaces
@@ -212,97 +216,21 @@ External::check(const std::vector<ObjectIdx>& args )  {
     //updating state based on actions and queries
     for (auto action_num:action_sequence_num)
     {
-
+// 
 
         // cout << "This is action " << action_num << endl;
         // cout << "STATE1 before update: " << state1->print() << endl;
-        char a1;
-        char a2;
-        if (action_num == 0)
-        {
-            a1 = '1';
-            a2 = '2';
-        } 
-        else if (action_num == 1)
-        {
-            a1 = '1';
-            a2 = '3';
-        }
-        else if (action_num == 2)
-        {
-            a1 = '1';
-            a2 = '4';
-        }
-        else if (action_num == 3)
-        {
-            a1 = '2';
-            a2 = '3';
-        }
-        else if (action_num == 4)
-        {
-            a1 = '2';
-            a2 = '4';
-        }
-        else if (action_num == 5)
-        {
-            a1 = '3';
-            a2 = '4';
-        }
-        else
-        {
-            cout << "action number wrong" << endl;
-            return 0;
-        }
-        // switch (action_num)
-        // {
-        // case 0:
-        //     a1 = '1';
-        //     a2 = '2';
-        //     break;
-        // case 1:
-        //     a1 = '1';
-        //     a2 = '3';
-        //     break;
-        // case 2:
-        //     a1 = '1';
-        //     a2 = '4';
-        //     break;
-        // case 3:
-        //     a1 = '2';
-        //     a2 = '3';
-        //     break;
-        // case 4:
-        //     a1 = '2';
-        //     a2 = '4';
-        //     break;
-        // case 5:
-        //     a1 = '3';
-        //     a2 = '4';
-        //     break;
-        
-        // default:
-        //     cout << "action number wrong" << endl;
-        //     return 0;
-        //     break;
-        // }
-        // if (action_num == 0)
-        // {
-        //     a1 = '1';
-        //     a2 = '2';
-        // }
-        // else if (action_num == 1)
-        // {
-        //     a1 = '1';
-        //     a2 = '3';
-        // }
-        // else if (action_num == 2)
-        // {
-        //     a1 ='2';
-        //     a2 = '3';
-        // } else{
-        //     //cout << "agent number wrong" << endl;
-        //     return 1;
-        // }
+
+        int a2_int = (action_num + 2)% NUM_OF_AGENT;
+        int a1_int = (action_num + 2) / NUM_OF_AGENT;
+
+        if (a1_int == 0) a1_int = NUM_OF_AGENT;
+        if (a2_int == 0) a2_int = NUM_OF_AGENT;
+
+        char a1 = a1_int+48;
+        char a2 = a2_int+48;
+
+        // cout << "agent 1 is: [" << a1 << "] agent 2 is: [" << a2 << "]" << endl;
         for (auto query_detail : query_detail_list)
         {
             for (int depth = 0; depth < (query_detail.size() - 1) / 2;depth++)
