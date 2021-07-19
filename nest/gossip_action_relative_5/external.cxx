@@ -139,14 +139,14 @@ External::check(const std::vector<ObjectIdx>& args )  {
     // {
     //     cout << elem.first << " "<< elem.second << endl; 
     // }
-    for (auto elem: queries)
-    {
-        cout << elem.first << " "<< elem.second << endl; 
-    }
+    // for (auto elem: queries)
+    // {
+    //     cout << elem.first << " "<< elem.second << endl; 
+    // }
     boost::trim_if(query_id_str, boost::is_any_of("\t")); // removes only tabs
-    cout << "find q string with id: " << query_id_str << endl;
+    // cout << "find q string with id: " << query_id_str << endl;
     string query_string = queries.find(query_id_str)->second;
-    cout << "find q string: " << query_string << endl;
+    // cout << "find q string: " << query_string << endl;
     
 
     // boost::trim(s); // removes all leading and trailing white spaces

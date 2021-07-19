@@ -32,6 +32,9 @@ public:
     {
         this->value=value;this->name=name;this->id=id;
     };
+    ~Variable()
+    {
+    };
 //    bool compareVariable(Variable &v)
 //    {
 //        return v.sameName(this->name)&&v.sameId(this->id)&&v.sameValue(this->value);
@@ -43,7 +46,11 @@ public:
     string getValue(){return this->value;};
     string getName(){return this->name;};
     string getId(){return this->id;};
-    static Variable getNone(){return *new Variable("None","None","None"); };
+    static Variable getNone()
+    {
+        Variable none("None","None","None");
+        return none; 
+    };
     string show(){
         string result = "[<";
         result += this->id;
@@ -75,6 +82,12 @@ private:
 public:
     vector<Variable> variables;
     Object(string id){this->id=id;};
+    ~Object()
+    {
+        // this->clear_all();
+        // cout << "destroy variables" << endl;
+        this->variables.clear();
+    };
     bool compareObject(Object &o)
     {
         if (this->getId()!=o.getId())
@@ -96,9 +109,21 @@ public:
         return "NONE";
     };
     string getId(){return this->id;};
+    // void clear_all()
+    // {
+    //     while(this->variables.size()!=0)
+    //     {
+    //         // Variable* i = this->variables.back().getPtr();
+    //         // delete(i);
+    //         this->variables.back().~Variable();
+    //         this->variables.pop_back();
+    //         // delete(i);
+    //     }
+    // };
     void addVariable(string name, string value)
     {
-        this -> variables.push_back(*new Variable(name,value,this->id));
+        Variable temp(name,value,this->id);
+        this -> variables.push_back(temp);
     };
     string show()
     {
@@ -166,7 +191,8 @@ public:
 
     void addVariable(string name, string value)
     {
-        this -> variables.push_back(*new Variable(name,value,this->id));
+        Variable temp(name,value,this->id);
+        this -> variables.push_back(temp);
     };
     string show()
     {
@@ -387,6 +413,10 @@ public:
 
         this -> agent_ids = agent_ids;
         this -> negation = negation;
+    };
+    ~ Seeing()
+    {
+        
     };
     string show()
     {
