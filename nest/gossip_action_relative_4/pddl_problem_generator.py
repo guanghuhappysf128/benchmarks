@@ -100,7 +100,11 @@ if __name__ == '__main__':
         f.write("\t)\n")
         f.write("\n")
         f.write("\t(:bounds\n")
-        f.write("\t\t(action_sequence - int[0..256])\n")
+        if options.all:
+            temp = str(2**((depth+1)*(num_of_agents-1)))
+        else:
+            temp = str(2** (depth+1)+1)
+        f.write("\t\t(action_sequence - int[0.." + temp + "])\n")
         f.write("\t\t(boolean - int[0..1])\n")
         f.write("\t)\n")
         f.write(")\n")

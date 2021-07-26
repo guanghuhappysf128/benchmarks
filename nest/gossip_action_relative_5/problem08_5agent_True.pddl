@@ -31285,7 +31285,7 @@
 	)
 
 	(:bounds
-		(action_sequence - int[0..1048576])
+		(action_sequence - int[0..16777216])
 		(boolean - int[0..1])
 	)
 )
